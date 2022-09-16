@@ -6,14 +6,14 @@ find_package(SFML 2.5.1 COMPONENTS graphics REQUIRED)
 set(CMAKE_CXX_STANDARD 17)
 
 set(Sources
-        RandomGenerator.cpp
+        Utils/RandomGenerator.cpp
         States/AntState.cpp
-        Sensor.cpp
+        World/Sensor.cpp
         Ants/Ant.cpp
-        PheromoneMap.cpp
-        Colony.cpp
-        World.cpp
-        Renderer.cpp
+        World/PheromoneMap.cpp
+        World/Colony.cpp
+        World/World.cpp
+        Renderer/Renderer.cpp
         App.cpp)
 
 add_executable(Ants ${Sources} main.cpp)

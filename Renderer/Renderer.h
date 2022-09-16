@@ -11,9 +11,9 @@
 #include "BoundaryBox.h"
 #include "Transform.h"
 
-#include "World.h"
-#include "Colony.h"
-#include "Hive.h"
+#include "World/World.h"
+#include "World/Colony.h"
+#include "World/Hive.h"
 #include "Ants/Ant.h"
 
 static const float kUnitLength = 4.f;

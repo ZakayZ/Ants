@@ -8,7 +8,7 @@
 #include <random>
 
 #include "Vector.h"
-#include "RandomGenerator.h"
+#include "Utils/RandomGenerator.h"
 
 #include "AntType.h"
 
@@ -24,7 +24,7 @@
 #include "States/GrabFoodState.h"
 #include "States/StoreFoodState.h"
 
-#include "Sensor.h"
+#include "World/Sensor.h"
 
 class Ant {
  public:

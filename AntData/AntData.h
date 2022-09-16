@@ -8,9 +8,9 @@
 #include <typeinfo>
 
 struct AntData {
-  explicit AntData(size_t colony_index) : colony_index(colony_index) {}
+  AntData(size_t colony_index) : colony_index(colony_index) {}
+
   size_t colony_index;
-  /// TODO state and colony and type
 };
 
 #endif //ANTS_ANTDATA_ANTDATA_H_

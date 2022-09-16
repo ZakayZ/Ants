@@ -6,9 +6,9 @@
 #define ANTS__STATE_H_
 
 #include "States.h"
-#include "Requirements.h"
-#include "PheromoneType.h"
-#include "WorldData.h"
+#include "Utils/Requirements.h"
+#include "World/PheromoneType.h"
+#include "World/WorldData.h"
 
 class AntState {
  public:

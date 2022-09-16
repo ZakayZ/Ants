@@ -7,10 +7,10 @@
 
 #include <optional>
 
-#include "PheromoneType.h"
+#include "World/PheromoneType.h"
 #include "Vector.h"
-#include "HiveStorage.h"
-#include "FoodSource.h"
+#include "World/HiveStorage.h"
+#include "World/FoodSource.h"
 
 struct SensorData {
   std::optional<Vector2f> food_position;

@@ -7,8 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "World.h"
-#include "Renderer.h"
+#include "World/World.h"
+#include "Renderer/Renderer.h"
 
 class App {
  public:

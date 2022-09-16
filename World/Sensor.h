@@ -11,7 +11,7 @@
 #include "AntData/SensorData.h"
 #include "AntData/GeneralData.h"
 #include "AntData/MovementData.h"
-#include "WorldData.h"
+#include "World/WorldData.h"
 
 class Sensor {
  public:
