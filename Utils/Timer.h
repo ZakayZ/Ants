@@ -16,7 +16,7 @@ class Timer {
     std::chrono::duration<float, std::milli> time_from_start = current_time - initial_time_;
     float now = time_from_start.count() * 1e-3f;
     delta_time_ = std::clamp(now - elapsed_time_, 0.f, 0.2f);
-    elapsed_time_ += delta_time_;
+    elapsed_time_ = now;
     std::cout << delta_time_ * 1000.f << '\n';
   }
 

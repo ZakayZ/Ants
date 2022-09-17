@@ -66,7 +66,7 @@ void Colony::Update(float delta_time, Iter ant_inserter) {
   int ant_cost = 1;
   for (auto& hive : hives_) {
     while (hive->GetStorage().StoredFood() >= ant_cost) {
-      ant_inserter = CreateAnt(hive->GetPosition());
+      ant_inserter = std::move(CreateAnt(hive->GetPosition()));
       hive->GetStorage().StoreFood(-ant_cost);
     }
   }

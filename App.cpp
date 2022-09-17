@@ -5,7 +5,7 @@
 #include "App.h"
 #include <vector>
 
-int Width = 1000;
+int Width = 800;
 int Height = 500;
 
 std::vector<FoodSource> food = {FoodSource(Vector2f(200, 200), 1000)};
@@ -21,8 +21,9 @@ void App::Run() {
     sf::Event event;
     while (window_.pollEvent(event))
     {
-      if (event.type == sf::Event::Closed)
+      if (event.type == sf::Event::Closed) {
         window_.close();
+      }
     }
 
     window_.clear();

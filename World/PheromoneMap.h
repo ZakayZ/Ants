@@ -35,7 +35,7 @@ class PheromoneMap {
 
   [[nodiscard]] size_t GetHeight() const {return pheromone_map_.back().size() - 2;}
 
-  float LayPheromone(const Vector2f& position, float added_pheromone, PheromoneType type);
+  void LayPheromone(const Vector2f& position, float added_pheromone, PheromoneType type);
 
  private:
   void UpdateTile(PheromoneTile& tile) const;

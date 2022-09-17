@@ -16,17 +16,27 @@ class SpatialHashing;
 template <class Object, typename Space, size_t Dimension>
 struct PositionedData {
  public:
-  PositionedData(const Object& object, const Vector<Space, Dimension>& position) : object(object), position_(position) {}
+  PositionedData(const Object& object, const Vector<Space, Dimension>& position)
+      : object(object), position_(position) {}
+
   PositionedData(Object&& object, const Vector<Space, Dimension>& position)
       : object(std::move(object)), position_(position) {}
+
+  template <typename... Args>
+  PositionedData(const Vector<Space, Dimension>& position, Args&& ... args)
+      : position_(position), object(std::forward<Args>(args)...) {}
+
   Object object;
+
   const Vector<Space, Dimension>& GetPosition() const { return position_; }
  private:
-  template <class, typename , size_t, class>
-  friend class SpatialTree;
+  template <class, typename, size_t, class>
+  friend
+  class SpatialTree;
 
-  template <class, typename , size_t, class>
-  friend class SpatialHashing;
+  template <class, typename, size_t, class>
+  friend
+  class SpatialHashing;
 
   Vector<Space, Dimension> position_;
 };

@@ -44,7 +44,7 @@ void Renderer::Render(const World& world) {
   }
 
   for (const auto& ant : world.GetAnts()) {
-    Render(*ant);
+    Render(*ant.object);
   }
 }
 

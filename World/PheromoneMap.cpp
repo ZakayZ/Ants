@@ -51,7 +51,7 @@ PheromoneMap::PheromoneInfo PheromoneMap::GetPheromoneCenter(
   return result;
 }
 
-float PheromoneMap::LayPheromone(const Vector2f& position, float added_pheromone, PheromoneType type) {
+void PheromoneMap::LayPheromone(const Vector2f& position, float added_pheromone, PheromoneType type) {
   pheromone_map_[int(position[0]) + 1][int(position[1]) + 1].pheromone[type] += added_pheromone;
 }
 

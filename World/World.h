@@ -15,8 +15,9 @@
 #include "Utils/Timer.h"
 
 class World {
+ private:
+  using AntHandler = SpatialHashing<std::unique_ptr<Ant>, float, 2>;
  public:
-  using AntHandler = std::list<std::unique_ptr<Ant>>;
   World(Vector2i world_dimensions, const std::vector<FoodSource>& food, const std::vector<std::vector<Hive>>& hives);
 
   [[nodiscard]] const WorldData& GetWorldData() const { return world_data_; }
