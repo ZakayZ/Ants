@@ -21,6 +21,7 @@ struct GeneralData {
   float pheromone_range = 6.f;
   float  pheromone_capacity = 10.f;
   float pheromone_decay = 0.1f;
+  float repellent_duration = 0.2f;
 
   /// colony related
   mutable size_t ant_count{};

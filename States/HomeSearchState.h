@@ -26,9 +26,9 @@ class HomeSearchState : public AntState {
       return;
     }
 
-    if (sensor_data_.pheromone_strength > 0.01f) {  /// TODO add threshold
-      move_data_.target_direction =
-          Normalised(sensor_data_.pheromone_center - move_data_.position);
+    if (sensor_data_.pheromone_strength > 0.01f) {
+      move_data_.target_direction = Normalised(move_data_.target_direction + sensor_data_.pheromone_strength
+          * (sensor_data_.pheromone_center - move_data_.position));
     }
   }
 
@@ -37,7 +37,7 @@ class HomeSearchState : public AntState {
                                            PheromoneType::Food);
   }
 
- private:
+ protected:
   SensorData& sensor_data_;
   MovementData& move_data_;
   PheromoneData& pheromone_data_;
