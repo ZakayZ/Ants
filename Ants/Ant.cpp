@@ -86,5 +86,10 @@ void Ant::ChangeState() {
                                                     food_data_, pheromone_data_, general_data_);
       break;
     }
+    case StateType::RepellentPheromone: {
+      ant_state_ = std::make_unique<RepellentPheromoneState>(sensor_data_, movement_data_,
+                                                             pheromone_data_, general_data_);
+      break;
+    }
   }
 }

@@ -6,7 +6,7 @@
 #define ANTS_ANTDATA_FOODDATA_H_
 
 struct FoodData {
-  int carry_amount;
+  int carry_amount{};
 };
 
 #endif //ANTS_ANTDATA_FOODDATA_H_

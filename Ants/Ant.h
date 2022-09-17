@@ -23,6 +23,7 @@
 #include "States/HomeSearchState.h"
 #include "States/GrabFoodState.h"
 #include "States/StoreFoodState.h"
+#include "States/RepellentPheromoneState.h"
 
 #include "World/Sensor.h"
 
@@ -65,8 +66,8 @@ class Ant {
   void ChangeState();
 
   MovementData movement_data_;
-  SensorData sensor_data_;
-  FoodData food_data_;
+  SensorData sensor_data_{};
+  FoodData food_data_{};
   PheromoneData pheromone_data_;
   AntData ant_data_;
 

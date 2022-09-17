@@ -20,7 +20,9 @@ class FoodSource {
 
   [[nodiscard]] float GetSize() const { return size_; }
 
-  [[nodiscard]] bool IsEmpty() const { return food_stored_ == 0; }
+  [[nodiscard]] bool IsEmpty() const {
+    return food_stored_ == 0;
+  }
  private:
   Vector2f position_;
   int food_stored_;

@@ -21,10 +21,10 @@ struct SensorData {
 
   std::optional<HiveStorage*> hive_storage;
 
-  float pheromone_strength;
+  float pheromone_strength{};
   Vector2f pheromone_center;
 
-  bool is_wall_ahead;
+  bool is_wall_ahead = false;
   Vector2f wall_data;
 };
 
