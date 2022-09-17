@@ -25,7 +25,7 @@ class RandomGenerator {
     std::uniform_real_distribution<float> distribution;
   };
 
-  static RandomHolder* generator;
+  static std::unique_ptr<RandomHolder> generator;
 };
 
 #endif //ANTS__RANDOMGENERATOR_H_
