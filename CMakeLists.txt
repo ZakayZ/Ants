@@ -7,7 +7,15 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(Sources
         Utils/RandomGenerator.cpp
+
         States/AntState.cpp
+        States/FoodSearchState.cpp
+        States/GrabFoodState.cpp
+        States/HomeSearchState.cpp
+        States/RepellentPheromoneState.cpp
+        States/StoreFoodState.cpp
+
+        World/WorldData.cpp
         World/Sensor.cpp
         Ants/Ant.cpp
         World/PheromoneMap.cpp

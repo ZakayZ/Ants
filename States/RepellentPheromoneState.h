@@ -10,24 +10,11 @@
 class RepellentPheromoneState : public HomeSearchState {
  public:
   RepellentPheromoneState(SensorData& ant_senses, PheromoneData& ant_pheromone,
-                          MovementData& ant_move, const GeneralData& ant_general)
-      : HomeSearchState(ant_senses, ant_pheromone, ant_move, ant_general) {}
+                          MovementData& ant_move, const GeneralData& ant_general);
 
-  void Decide(float delta_time) override {
-    HomeSearchState::Decide(delta_time);
+  void Decide(float delta_time) override;
 
-    if (active_time_ >= general_data_.repellent_duration) {
-      change_state_ = StateType::HomeSearch;
-    }
-  }
-
-  void Interact(WorldData& world_data, float delta_time) override {
-    active_time_ += delta_time;
-    world_data.pheromone_map_.LayPheromone(general_data_.colony_index,
-                                           move_data_.position,
-                                           -pheromone_data_.pheromone_strength * delta_time,
-                                           PheromoneType::Food);
-  }
+  void Interact(WorldData& world_data, float delta_time) override;
 
  private:
   float active_time_{};

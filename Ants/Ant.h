@@ -24,7 +24,8 @@
 #include "States/StoreFoodState.h"
 #include "States/RepellentPheromoneState.h"
 
-#include "World/Sensor.h"
+class Sensor;
+class WorldData;
 
 class Ant {
  public:
@@ -57,6 +58,7 @@ class Ant {
   void Interact(WorldData& world_data, float delta_time);
 
   Sensor GetSensor();
+
  protected:
   void Move(float delta_time);
 

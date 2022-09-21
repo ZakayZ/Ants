@@ -15,8 +15,6 @@
 #include "Utils/Timer.h"
 
 class World {
- private:
-  using AntHandler = SpatialHashing<std::unique_ptr<Ant>, float, 2>;
  public:
   World(Vector2i world_dimensions, const std::vector<FoodSource>& food, const std::vector<std::vector<Hive>>& hives);
 
@@ -24,7 +22,7 @@ class World {
 
   [[nodiscard]] const auto& GetColonies() const { return colonies_; }
 
-  [[nodiscard]] const auto& GetAnts() const { return ant_map_; }
+  [[nodiscard]] const auto& GetAnts() const { return world_data_.ant_map_; }
 
   [[nodiscard]] const auto& GetTimer() const { return simulation_time_; }
 
@@ -32,10 +30,9 @@ class World {
 
  private:
   std::vector<Colony> colonies_;
-  std::vector<AntHandler::iterator> ants_dividers_;
+  std::vector<WorldData::AntHandler::iterator> ants_dividers_;
 
   WorldData world_data_;
-  AntHandler ant_map_;
   Timer simulation_time_;
 };
 

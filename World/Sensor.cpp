@@ -2,7 +2,9 @@
 // Created by Artem Novikov on 02.09.2022.
 //
 
+#include "WorldData.h"
 #include "Sensor.h"
+#include "BoundaryBox.h"
 
 Sensor::Sensor(const std::unique_ptr<AntState>& ant_state, const GeneralData& ant_general,
                const MovementData& ant_position, SensorData& sensor_data)
@@ -108,13 +110,16 @@ void Sensor::DetectHomePosition(WorldData& world_data) {
 
 void Sensor::DetectPheromone(WorldData& world_data) {
   auto pheromone_data = world_data.pheromone_map_.GetPheromoneCenter(general_data_.colony_index,
-                                                                     state_data_->GetSensorCenter(),
-                                                                     state_data_->GetSensorSize(),
+                                                                     state_data_->GetPheromoneSensorCenter(),
+                                                                     state_data_->GetPheromoneSensorSize(),
                                                                      state_data_->GetPheromoneType());
   data_.pheromone_strength = pheromone_data.strength;
   data_.pheromone_center = pheromone_data.center;
 }
 
 void Sensor::DetectAnts(WorldData& world_data) {
-
+  auto size = state_data_->GetSensorSize();
+  auto center = state_data_->GetSensorCenter();
+  BoundaryBox2f box({center[0] - size, center[1] - size}, {center[0] + size, center[1] + size});
+  world_data.ant_map_.ApplyInBox(box, state_data_->GetProximitySensor(), state_data_->GetEnemySensor());
 }

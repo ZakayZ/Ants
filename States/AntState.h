@@ -5,12 +5,19 @@
 #ifndef ANTS__STATE_H_
 #define ANTS__STATE_H_
 
-#include "States.h"
+#include <functional>
+
 #include "Utils/Requirements.h"
+
+#include "States.h"
+
 #include "AntData/MovementData.h"
 #include "AntData/GeneralData.h"
+
 #include "World/PheromoneType.h"
-#include "World/WorldData.h"
+
+class Ant;
+class WorldData;
 
 class AntState {
  public:
@@ -22,11 +29,19 @@ class AntState {
 
   [[nodiscard]] virtual StateType GetState() const = 0;
 
-  [[nodiscard]] virtual Vector2f GetSensorCenter() const {
+  [[nodiscard]] virtual Vector2f GetPheromoneSensorCenter() const {
     return move_data_.position + move_data_.velocity * (general_data_.pheromone_range / general_data_.max_speed);
   }
 
-  [[nodiscard]] virtual float GetSensorSize() const { return general_data_.pheromone_capacity; }
+  [[nodiscard]] virtual float GetPheromoneSensorSize() const { return general_data_.pheromone_capacity; }
+
+  [[nodiscard]] virtual std::function<bool(const Ant&)> GetProximitySensor() const;
+
+  [[nodiscard]] virtual std::function<void(const Ant&)> GetEnemySensor() const;
+
+  [[nodiscard]] virtual Vector2f GetSensorCenter() const { return move_data_.position; };
+
+  [[nodiscard]] virtual float GetSensorSize() const { return general_data_.visible_range; };
 
   [[nodiscard]] StateType StateTransition() const { return change_state_; }
 

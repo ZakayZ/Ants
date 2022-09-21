@@ -7,11 +7,7 @@
 
 #include <memory>
 
-#include "States/AntState.h"
-#include "AntData/SensorData.h"
-#include "AntData/GeneralData.h"
-#include "AntData/MovementData.h"
-#include "World/WorldData.h"
+#include "Ants/Ant.h"
 
 class Sensor {
  public:

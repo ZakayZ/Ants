@@ -5,6 +5,8 @@
 #ifndef ANTS_STATES_FOODSEARCHSTATE_H_
 #define ANTS_STATES_FOODSEARCHSTATE_H_
 
+#include "AntData/SensorData.h"
+#include "AntData/PheromoneData.h"
 #include "AntState.h"
 
 class FoodSearchState : public AntState {
@@ -19,25 +21,9 @@ class FoodSearchState : public AntState {
 
   [[nodiscard]]  StateType GetState() const override { return StateType::FoodSearch; }
 
-  void Decide(float delta_time) override {
-    if (sensor_data_.food_position.has_value()) {
-      change_state_ = StateType::GrabFood;
-      return;
-    }
+  void Decide(float delta_time) override;
 
-    if (sensor_data_.pheromone_strength > 0.01f) {
-      move_data_.target_direction =
-          Normalised(move_data_.target_direction + (delta_time * sensor_data_.pheromone_strength)
-              * (sensor_data_.pheromone_center - move_data_.position));
-    }
-  }
-
-  void Interact(WorldData& world_data, float delta_time) override {
-    world_data.pheromone_map_.LayPheromone(general_data_.colony_index,
-                                           move_data_.position,
-                                           pheromone_data_.pheromone_strength * delta_time,
-                                           PheromoneType::Home);
-  }
+  void Interact(WorldData& world_data, float delta_time) override;
 
  private:
   SensorData& sensor_data_;

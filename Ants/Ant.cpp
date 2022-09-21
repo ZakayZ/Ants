@@ -2,6 +2,8 @@
 // Created by Artem Novikov on 03.09.2022.
 //
 
+#include "World/WorldData.h"
+#include "World/Sensor.h"
 #include "Ant.h"
 
 Ant::Ant(const Vector2f& position, const GeneralData& general_data, float pheromone_initial)

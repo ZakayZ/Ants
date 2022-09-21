@@ -219,7 +219,7 @@ class SpatialHashing {
   }
 
   template <class Functor, class Predicate>
-  void ApplyInBox(const BoundaryBox<Space, Dimension>& box, Functor& function, Predicate& predicate) {
+  void ApplyInBox(const BoundaryBox<Space, Dimension>& box, Functor function, Predicate predicate) {
     std::list<iterator, IterAlloc> objects;
     std::array<size_t, Dimension> begins;
     std::array<size_t, Dimension> ends;
@@ -228,11 +228,10 @@ class SpatialHashing {
       ends[i] = BucketIndex(box.GetRight()[i], i);
     }
     ApplyInBoxIterate<0>(0, begins, ends, function, predicate);
-    return objects;
   }
 
   template <class Predicate, class InputIterator>
-  void GetInBox(const BoundaryBox<Space, Dimension>& box, Predicate& predicate, InputIterator input) {
+  void GetInBox(const BoundaryBox<Space, Dimension>& box, InputIterator input, Predicate predicate) {
     std::array<size_t, Dimension> begins;
     std::array<size_t, Dimension> ends;
     for (size_t i = 0; i < Dimension; ++i) {
@@ -262,16 +261,22 @@ class SpatialHashing {
   template <size_t Index, class Predicate, class InputIterator>
   void GetInBoxIterate(size_t current_hash,
                        const std::array<size_t, Dimension>& begins, const std::array<size_t, Dimension>& ends,
-                       Predicate& predicate, InputIterator input) const {
+                       InputIterator input, Predicate predicate) const {
     if constexpr (Index == Dimension) {
       for (auto& iter : buckets_[current_hash]) {
-        if (predicate(iter->object)) {
-          input.push_back(iter);
+        if constexpr (PositionChecker<Object>::value) {
+          if (predicate(iter->object)) {
+            input = iter;
+          }
+        } else {
+          if (predicate(*(iter->object))) {
+            input = iter;
+          }
         }
       }
     } else {
       for (size_t i = begins[Index]; i < ends[Index]; ++i) {
-        GetInBoxIterate<Index + 1>(current_hash + i * divisions_[Index], begins, ends, predicate, input);
+        GetInBoxIterate<Index + 1>(current_hash + i * divisions_[Index], begins, ends, input, predicate);
       }
     }
   }
@@ -279,11 +284,18 @@ class SpatialHashing {
   template <size_t Index, class Predicate, class Functor>
   void ApplyInBoxIterate(size_t current_hash,
                          const std::array<size_t, Dimension>& begins, const std::array<size_t, Dimension>& ends,
-                         Predicate& predicate, Functor& function) const {
+                         Predicate predicate, Functor function) const {
     if constexpr (Index == Dimension) {
       for (auto& iter : buckets_[current_hash]) {
-        if (predicate(iter->object)) {
-          function(iter->object);
+        if constexpr (PositionChecker<Object>::value) {
+          if (predicate(iter->object)) {
+            function(iter->object);
+          }
+        } else {
+          auto& obj = *(iter->object);
+          if (predicate(obj)) {
+            function(obj);
+          }
         }
       }
     } else {
