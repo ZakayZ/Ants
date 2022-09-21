@@ -31,9 +31,10 @@ void Renderer::RegisterScale(const Vector2f& center, float scale_factor) {  /// 
 
 void Renderer::Render(const World& world) {
   const auto& world_data = world.GetWorldData();
-  Render(world_data.map_);
 
-  Render(world_data.pheromone_map_);
+  Render(world_data.map_);  /// draw background
+
+  Render(world_data.pheromone_map_);  ///
 
   for (const auto& hive : world_data.hive_map_) {
     Render(hive);
@@ -48,21 +49,29 @@ void Renderer::Render(const World& world) {
   }
 }
 
-void Renderer::Render(const std::vector<std::vector<char>>& map) {
-  for (const auto& row : map) {
-    for (const auto& tile : row) {
-      /// TODO
-    }
-  }
+void Renderer::Render(const TileMap& map) {
 }
 
 void Renderer::Render(const PheromoneMap& pheromone_map) {
   for (int x = 0; x < pheromone_map.GetWidth(); ++x) {
     for (int y = 0; y < pheromone_map.GetHeight(); ++y) {
       size_t index = 4 * (x * pheromone_map.GetHeight() + y);
+
+      auto home_pheromone = pheromone_map.GetPheromone(x, y, 0, PheromoneType::Home);
+      auto food_pheromone = pheromone_map.GetPheromone(x, y, 0, PheromoneType::Food);
+      uint8_t value;
+      if (home_pheromone < food_pheromone) {
+        tile_map_[index + 0].color = tile_map_[index + 1].color =
+        tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Cyan;
+        value = static_cast<uint8_t>(std::clamp(food_pheromone, 0.f, 1.f) * 255);
+      } else {
+        tile_map_[index + 0].color = tile_map_[index + 1].color =
+        tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Yellow;
+        value = static_cast<uint8_t>(std::clamp(home_pheromone, 0.f, 1.f) * 255);
+      }
+
       tile_map_[index + 0].color.a = tile_map_[index + 1].color.a =
-      tile_map_[index + 2].color.a = tile_map_[index + 3].color.a =
-          static_cast<uint8_t>(std::clamp(pheromone_map.GetPheromone(x, y, PheromoneType::Home), 0.f, 1.f) * 255);
+      tile_map_[index + 2].color.a = tile_map_[index + 3].color.a = value;
     }
   }
   window_.draw(tile_map_);

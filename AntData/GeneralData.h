@@ -24,6 +24,7 @@ struct GeneralData {
   float repellent_duration = 0.2f;
 
   /// colony related
+  size_t colony_index;
   mutable size_t ant_count{};
 };
 

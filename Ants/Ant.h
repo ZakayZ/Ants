@@ -13,7 +13,6 @@
 #include "AntType.h"
 
 #include "AntData/GeneralData.h"
-#include "AntData/AntData.h"
 #include "AntData/MovementData.h"
 #include "AntData/SensorData.h"
 #include "AntData/PheromoneData.h"
@@ -29,7 +28,7 @@
 
 class Ant {
  public:
-  Ant(const Vector2f& position, size_t colony_index, const GeneralData& general_data, float pheromone_initial);
+  Ant(const Vector2f& position, const GeneralData& general_data, float pheromone_initial);
 
   virtual ~Ant() = 0;
 
@@ -41,7 +40,7 @@ class Ant {
 
   [[nodiscard]] const PheromoneData& GetPheromoneData() const { return pheromone_data_; }
 
-  [[nodiscard]] const AntData& GetAntData() const { return ant_data_; }
+  [[nodiscard]] size_t GetColonyIndex() const { return general_data_.colony_index; }
 
   [[nodiscard]] const GeneralData& GetGeneralData() const { return general_data_; }
 
@@ -69,7 +68,6 @@ class Ant {
   SensorData sensor_data_{};
   FoodData food_data_{};
   PheromoneData pheromone_data_;
-  AntData ant_data_;
 
   const GeneralData& general_data_;
 

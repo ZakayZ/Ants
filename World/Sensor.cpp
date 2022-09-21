@@ -5,8 +5,8 @@
 #include "Sensor.h"
 
 Sensor::Sensor(const std::unique_ptr<AntState>& ant_state, const GeneralData& ant_general,
-               const MovementData& ant_position, SensorData& ant_data)
-    : state_data_(ant_state), general_data_(ant_general), movement_data_(ant_position), data_(ant_data) {}
+               const MovementData& ant_position, SensorData& sensor_data)
+    : state_data_(ant_state), general_data_(ant_general), movement_data_(ant_position), data_(sensor_data) {}
 
 void Sensor::Sense(WorldData& world_data) {
   DetectWalls(world_data);
@@ -40,22 +40,23 @@ void Sensor::Sense(WorldData& world_data) {
 void Sensor::DetectWalls(WorldData& world_data) {
   data_.is_wall_ahead = false;
   Vector2i tile_position = movement_data_.position;
-  if (world_data.map_[tile_position[0] + 1][tile_position[1]]) {
+
+  if (world_data.map_.HasObstacle(tile_position[0] + 1, tile_position[1])) {
     data_.is_wall_ahead = true;
     data_.wall_data[0] = 1.f;
   }
 
-  if (world_data.map_[tile_position[0] - 1][tile_position[1]]) {
+  if (world_data.map_.HasObstacle(tile_position[0] - 1, tile_position[1])) {
     data_.is_wall_ahead = true;
     data_.wall_data[0] = -1.f;
   }
 
-  if (world_data.map_[tile_position[0]][tile_position[1] + 1]) {
+  if (world_data.map_.HasObstacle(tile_position[0], tile_position[1] + 1)) {
     data_.is_wall_ahead = true;
     data_.wall_data[1] = 1.f;
   }
 
-  if (world_data.map_[tile_position[0]][tile_position[1] - 1]) {
+  if (world_data.map_.HasObstacle(tile_position[0], tile_position[1] - 1)) {
     data_.is_wall_ahead = true;
     data_.wall_data[1] = -1.f;
   }
@@ -106,14 +107,14 @@ void Sensor::DetectHomePosition(WorldData& world_data) {
 }
 
 void Sensor::DetectPheromone(WorldData& world_data) {
-  auto pheromone_data = world_data.pheromone_map_.GetPheromoneCenter(
-      movement_data_.position + (movement_data_.target_direction + movement_data_.velocity / general_data_.max_speed) * general_data_.pheromone_range,
-      general_data_.pheromone_range,
-      state_data_->GetPheromoneType());
+  auto pheromone_data = world_data.pheromone_map_.GetPheromoneCenter(state_data_->GetSensorCenter(),
+                                                                     state_data_->GetSensorSize(),
+                                                                     general_data_.colony_index,
+                                                                     state_data_->GetPheromoneType());
   data_.pheromone_strength = pheromone_data.strength;
   data_.pheromone_center = pheromone_data.center;
 }
 
-void Sensor::DetectAnts(WorldData& world_data) {  /// TODO
+void Sensor::DetectAnts(WorldData& world_data) {
 
 }

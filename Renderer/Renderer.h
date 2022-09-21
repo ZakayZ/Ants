@@ -29,7 +29,7 @@ class Renderer {
   void Render(const World& world);
 
  private:
-  void Render(const std::vector<std::vector<char>>& map);
+  void Render(const TileMap& map);
 
   void Render(const PheromoneMap& pheromone_map);
 

@@ -8,30 +8,19 @@
 #include <vector>
 
 #include "Vector.h"
+#include "TileMap.h"
 #include "PheromoneMap.h"
-#include "FoodSource.h"
-#include "Hive.h"
+#include "FoodMap.h"
+#include "HiveMap.h"
 
 struct WorldData {
-  WorldData(Vector2i world_dimensions, const std::vector<FoodSource>& food)
-      : map_(world_dimensions[0], std::vector<char>(world_dimensions[1], false)),
-        pheromone_map_(world_dimensions), food_map_(food), hive_map_() {
+  WorldData(Vector2i world_dimensions, const std::vector<FoodSource>& food, size_t colonies_number)
+      : map_(world_dimensions), pheromone_map_(world_dimensions, colonies_number), food_map_(food), hive_map_({}) {}
 
-    for (int i = 0; i < world_dimensions[0]; ++i) {
-      map_[i][0] = true;
-      map_[i].back() = true;
-    }
-
-    for (int i = 0; i < world_dimensions[1]; ++i) {
-      map_[0][i] = true;
-      map_.back()[i] = true;
-    }
-  }
-
-  std::vector<std::vector<char>> map_; /// TODO make class
+  TileMap map_;
   PheromoneMap pheromone_map_;
-  std::vector<FoodSource> food_map_; /// TODO make food sources class
-  std::vector<Hive> hive_map_;  /// TODO hives storage
+  FoodMap food_map_;
+  HiveMap hive_map_;
 };
 
 #endif //ANTS_ANTDATA_WORLDDATA_H_

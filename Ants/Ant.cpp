@@ -4,9 +4,8 @@
 
 #include "Ant.h"
 
-Ant::Ant(const Vector2f& position, size_t colony_index, const GeneralData& general_data, float pheromone_initial)
-    : movement_data_(position), pheromone_data_(pheromone_initial),
-      ant_data_(colony_index), general_data_(general_data) {
+Ant::Ant(const Vector2f& position, const GeneralData& general_data, float pheromone_initial)
+    : movement_data_(position), pheromone_data_(pheromone_initial), general_data_(general_data) {
   movement_data_.target_direction = RandomGenerator().GetVector2f();
   movement_data_.random_cooldown = general_data.wander_cooldown * RandomGenerator().GetValue();
 
@@ -16,7 +15,7 @@ Ant::Ant(const Vector2f& position, size_t colony_index, const GeneralData& gener
 Ant::~Ant() { --general_data_.ant_count; }
 
 void Ant::Update(float delta_time) {
-  ant_state_->Decide();
+  ant_state_->Decide(delta_time);
   ChangeState();
   AvoidObstacle();
   Move(delta_time);
@@ -24,7 +23,7 @@ void Ant::Update(float delta_time) {
 
 void Ant::Interact(WorldData& world_data, float delta_time) {
   ant_state_->Interact(world_data, delta_time);
-  pheromone_data_.pheromone_strength *= (1 - general_data_.pheromone_decay * delta_time);  /// TODO better solution
+  pheromone_data_.pheromone_strength *= (1 - general_data_.pheromone_decay * delta_time);
 }
 
 Sensor Ant::GetSensor() {
@@ -65,30 +64,34 @@ void Ant::AvoidObstacle() {
 void Ant::ChangeState() {
   switch (ant_state_->StateTransition()) {
     case StateType::None: { break; }
+
     case StateType::FoodSearch: {
-      ant_state_ = std::make_unique<FoodSearchState>(sensor_data_, movement_data_, pheromone_data_);
+      ant_state_ = std::make_unique<FoodSearchState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
       pheromone_data_.pheromone_strength = general_data_.pheromone_capacity;
       break;
     }
+
     case StateType::GrabFood: {
       ant_state_ =
-          std::make_unique<GrabFoodState>(sensor_data_, movement_data_,
-                                          food_data_, pheromone_data_, general_data_);
+          std::make_unique<GrabFoodState>(sensor_data_, food_data_, pheromone_data_, movement_data_, general_data_);
       break;
     }
+
     case StateType::HomeSearch: {
-      ant_state_ = std::make_unique<HomeSearchState>(sensor_data_, movement_data_, pheromone_data_);
+      ant_state_ = std::make_unique<HomeSearchState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
       pheromone_data_.pheromone_strength = general_data_.pheromone_capacity;
       break;
     }
+
     case StateType::StoreFood: {
-      ant_state_ = std::make_unique<StoreFoodState>(sensor_data_, movement_data_,
-                                                    food_data_, pheromone_data_, general_data_);
+      ant_state_ =
+          std::make_unique<StoreFoodState>(sensor_data_, food_data_, pheromone_data_, movement_data_, general_data_);
       break;
     }
+
     case StateType::RepellentPheromone: {
-      ant_state_ = std::make_unique<RepellentPheromoneState>(sensor_data_, movement_data_,
-                                                             pheromone_data_, general_data_);
+      ant_state_ =
+          std::make_unique<RepellentPheromoneState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
       break;
     }
   }

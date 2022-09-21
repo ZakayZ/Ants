@@ -10,8 +10,8 @@
 
 class Hive {
  public:
-  Hive(const Vector2f& position, float initial_size = 3.f)
-      : position_(position), storage_(), size_(initial_size) {}
+  Hive(const Vector2f& position, int initial_food = 0, float initial_size = 3.f)
+      : position_(position), storage_(initial_food), size_(initial_size) {}
 
   HiveStorage& GetStorage() { return storage_; }
 

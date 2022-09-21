@@ -16,17 +16,23 @@
 class Sensor {
  public:
   Sensor(const std::unique_ptr<AntState>& ant_state, const GeneralData& ant_general,
-         const MovementData& ant_position, SensorData& ant_data);
+         const MovementData& ant_position, SensorData& sensor_data);
 
   void Sense(WorldData& world_data);
 
  private:
   void DetectWalls(WorldData& world_data);
+
   void DetectHome(WorldData& world_data);
+
   void DetectFood(WorldData& world_data);
+
   void DetectFoodPosition(WorldData& world_data);
+
   void DetectHomePosition(WorldData& world_data);
+
   void DetectPheromone(WorldData& world_data);
+
   void DetectAnts(WorldData& world_data);
 
   const std::unique_ptr<AntState>& state_data_;

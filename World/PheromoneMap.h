@@ -6,6 +6,7 @@
 #define ANTS__PHEROMONEMAP_H_
 
 #include <vector>
+
 #include "Vector.h"
 #include "PheromoneType.h"
 
@@ -17,30 +18,39 @@ class PheromoneMap {
   };
 
   struct PheromoneTile {
-    Vector<float, kPheromoneSize> pheromone{};
-    float cumulative_delta_time{};
+    PheromoneTile(size_t colonies_number) : pheromone(colonies_number), cumulative_delta_time(colonies_number) {}
+
+    std::vector<Vector<float, kPheromoneSize>> pheromone;
+    std::vector<float> cumulative_delta_time;
   };
 
-  PheromoneMap(Vector2i dimensions, float evaporation_rate = 0.05);
+  PheromoneMap(Vector2i dimensions, size_t colonies_number, float evaporation_rate = 0.05);
 
   void Update(float delta_time);
 
-  [[nodiscard]] float GetPheromone(int x, int y, PheromoneType type) const;
+  [[nodiscard]] float GetPheromone(int x, int y, size_t colony_index, PheromoneType type) const;
 
-  [[nodiscard]] float GetPheromone(const Vector2f& position, PheromoneType type) const;
+  [[nodiscard]] float GetPheromone(const Vector2f& position, size_t colony_index, PheromoneType type) const;
 
-  [[nodiscard]] PheromoneInfo GetPheromoneCenter(const Vector2f& position, float side_length, PheromoneType type) const;
+  [[nodiscard]] PheromoneInfo GetPheromoneCenter(
+      const Vector2f& position, float side_length, size_t colony_index, PheromoneType type) const;
 
-  [[nodiscard]] size_t GetWidth() const {return pheromone_map_.size() - 2;}
+  [[nodiscard]] size_t GetWidth() const { return pheromone_map_.size() - 2; }
 
-  [[nodiscard]] size_t GetHeight() const {return pheromone_map_.back().size() - 2;}
+  [[nodiscard]] size_t GetHeight() const { return pheromone_map_.back().size() - 2; }
 
-  void LayPheromone(const Vector2f& position, float added_pheromone, PheromoneType type);
+  void LayPheromone(const Vector2f& position, float added_pheromone, size_t colony_index, PheromoneType type);
 
  private:
-  void UpdateTile(PheromoneTile& tile) const;
+  inline void UpdateTileTime(PheromoneTile& tile, float delta_time) const;
 
-  void ForceUpdateTile(PheromoneTile& tile) const;
+  inline void ForceUpdateTile(PheromoneTile& tile) const;
+
+  inline void ForceUpdateTile(PheromoneTile& tile, size_t colony_index) const;
+
+  inline void UpdateTile(PheromoneTile& tile) const;
+
+  inline void UpdateTile(PheromoneTile& tile, size_t colony_index) const;
 
   float evaporation_rate_;
   mutable std::vector<std::vector<PheromoneTile>> pheromone_map_;

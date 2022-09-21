@@ -8,7 +8,7 @@ World::World(Vector2i world_dimensions, const std::vector<FoodSource>& food,
              const std::vector<std::vector<Hive>>& hives)
     : colonies_(),
       ants_dividers_(),
-      world_data_(world_dimensions, food),
+      world_data_(world_dimensions, food, hives.size()),
       ant_map_(BoundaryBox2f({0.f, 0.f}, {float(world_dimensions[0]), float(world_dimensions[1])}), {50, 50}),
       simulation_time_() {
   colonies_.reserve(hives.size());  /// fill queens
@@ -16,7 +16,7 @@ World::World(Vector2i world_dimensions, const std::vector<FoodSource>& food,
 
   for (auto& colony_hives : hives) {  /// Make world hives
     for (auto& hive : colony_hives) {
-      world_data_.hive_map_.push_back(hive);
+      world_data_.hive_map_.AddHive(hive);
     }
   }
 
@@ -35,26 +35,30 @@ World::World(Vector2i world_dimensions, const std::vector<FoodSource>& food,
 }
 
 void World::Update() {
-  simulation_time_.Update();  /// Update clock
+  /// Update clock
+  simulation_time_.Update();
   float delta_time = simulation_time_.GetDeltaTime();
-  for (auto& ant : ant_map_) {  /// Move all ants
+
+  /// Move all ants
+  for (auto& ant : ant_map_) {
     ant.object->GetSensor().Sense(world_data_);
     ant.object->Interact(world_data_, delta_time);
     ant.object->Update(delta_time);
   }
-
   ant_map_.UpdatePositions();
 
-  for (size_t i = 0; i < colonies_.size(); ++i) {  /// Create new ants and update colony info
+
+  /// Create new ants and update colony info
+  for (size_t i = 0; i < colonies_.size(); ++i) {
     colonies_[i].Update(delta_time, std::insert_iterator(ant_map_, ants_dividers_[i]));
   }
 
-  world_data_.pheromone_map_.Update(delta_time);  /// Update pheromone map
+  /// Update pheromone map
+  world_data_.pheromone_map_.Update(delta_time);
 
-  for (auto it = world_data_.food_map_.begin(); it != world_data_.food_map_.end(); ++it) {
-    if (it->IsEmpty()) {
-      world_data_.food_map_.erase(it);
-      break;
-    }
-  }
+  /// Update hives
+  world_data_.hive_map_.Update(delta_time);
+
+  /// Update food sources
+  world_data_.food_map_.Update(delta_time);
 }

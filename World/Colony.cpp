@@ -1,4 +1,3 @@
-//
 // Created by Artem Novikov on 27.08.2022.
 //
 
@@ -7,6 +6,10 @@
 size_t Colony::colony_count = 0;
 
 Colony::Colony(std::vector<Hive*>& colony_hives) : colony_index_(colony_count++), hives_(colony_hives) {
+  for (auto& general_data : ant_general_data_) {
+    general_data.colony_index = colony_index_;
+  }
+
   ant_fractions_[AntType::kQueen] = 0;
   ant_fractions_[AntType::kWorker] = 1;
   ant_fractions_[AntType::kSoldier] = 0;
