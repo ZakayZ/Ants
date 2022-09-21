@@ -23,7 +23,7 @@ class AntState {
   [[nodiscard]] virtual StateType GetState() const = 0;
 
   [[nodiscard]] virtual Vector2f GetSensorCenter() const {
-    return move_data_.position + move_data_.target_direction * general_data_.pheromone_range;
+    return move_data_.position + move_data_.velocity * (general_data_.pheromone_range / general_data_.max_speed);
   }
 
   [[nodiscard]] virtual float GetSensorSize() const { return general_data_.pheromone_capacity; }

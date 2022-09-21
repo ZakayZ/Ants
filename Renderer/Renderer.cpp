@@ -57,8 +57,8 @@ void Renderer::Render(const PheromoneMap& pheromone_map) {
     for (int y = 0; y < pheromone_map.GetHeight(); ++y) {
       size_t index = 4 * (x * pheromone_map.GetHeight() + y);
 
-      auto home_pheromone = pheromone_map.GetPheromone(x, y, 0, PheromoneType::Home);
-      auto food_pheromone = pheromone_map.GetPheromone(x, y, 0, PheromoneType::Food);
+      auto home_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Home);
+      auto food_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Food);
       uint8_t value;
       if (home_pheromone < food_pheromone) {
         tile_map_[index + 0].color = tile_map_[index + 1].color =

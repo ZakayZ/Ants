@@ -107,9 +107,9 @@ void Sensor::DetectHomePosition(WorldData& world_data) {
 }
 
 void Sensor::DetectPheromone(WorldData& world_data) {
-  auto pheromone_data = world_data.pheromone_map_.GetPheromoneCenter(state_data_->GetSensorCenter(),
+  auto pheromone_data = world_data.pheromone_map_.GetPheromoneCenter(general_data_.colony_index,
+                                                                     state_data_->GetSensorCenter(),
                                                                      state_data_->GetSensorSize(),
-                                                                     general_data_.colony_index,
                                                                      state_data_->GetPheromoneType());
   data_.pheromone_strength = pheromone_data.strength;
   data_.pheromone_center = pheromone_data.center;

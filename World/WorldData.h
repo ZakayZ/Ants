@@ -15,7 +15,7 @@
 
 struct WorldData {
   WorldData(Vector2i world_dimensions, const std::vector<FoodSource>& food, size_t colonies_number)
-      : map_(world_dimensions), pheromone_map_(world_dimensions, colonies_number), food_map_(food), hive_map_({}) {}
+      : map_(world_dimensions), pheromone_map_(colonies_number, world_dimensions), food_map_(food), hive_map_({}) {}
 
   TileMap map_;
   PheromoneMap pheromone_map_;

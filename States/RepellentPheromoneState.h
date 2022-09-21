@@ -9,7 +9,7 @@
 
 class RepellentPheromoneState : public HomeSearchState {
  public:
-  RepellentPheromoneState(SensorData& ant_senses,PheromoneData& ant_pheromone,
+  RepellentPheromoneState(SensorData& ant_senses, PheromoneData& ant_pheromone,
                           MovementData& ant_move, const GeneralData& ant_general)
       : HomeSearchState(ant_senses, ant_pheromone, ant_move, ant_general) {}
 
@@ -23,8 +23,10 @@ class RepellentPheromoneState : public HomeSearchState {
 
   void Interact(WorldData& world_data, float delta_time) override {
     active_time_ += delta_time;
-    world_data.pheromone_map_.LayPheromone(move_data_.position, -pheromone_data_.pheromone_strength * delta_time,
-                                           general_data_.colony_index, PheromoneType::Food);
+    world_data.pheromone_map_.LayPheromone(general_data_.colony_index,
+                                           move_data_.position,
+                                           -pheromone_data_.pheromone_strength * delta_time,
+                                           PheromoneType::Food);
   }
 
  private:

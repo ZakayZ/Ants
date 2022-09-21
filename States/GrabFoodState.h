@@ -40,8 +40,10 @@ class GrabFoodState : public AntState {
   }
 
   void Interact(WorldData& world_data, float delta_time) override {
-    world_data.pheromone_map_.LayPheromone(move_data_.position, pheromone_data_.pheromone_strength * delta_time,
-                                           general_data_.colony_index, PheromoneType::Home);
+    world_data.pheromone_map_.LayPheromone(general_data_.colony_index,
+                                           move_data_.position,
+                                           pheromone_data_.pheromone_strength * delta_time,
+                                           PheromoneType::Home);
   }
 
  private:
