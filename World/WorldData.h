@@ -20,7 +20,7 @@ class WorldData {
  public:
   using AntHandler = SpatialHashing<std::unique_ptr<Ant>, float, 2>;
 
-  WorldData(Vector2i world_dimensions, const std::vector<FoodSource>& food, size_t colonies_number);
+  WorldData(Vector2i world_dimensions, const std::vector<FoodSource>& food, const std::vector<std::vector<Hive>>& hives);
 
   void Update(float delta_time);
 

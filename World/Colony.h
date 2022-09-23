@@ -15,19 +15,9 @@
 #include "Ants/Soldier.h"
 #include "Ants/Queen.h"
 
-
-
 class Colony {
  public:
-  Colony(std::vector<Hive*>& colony_hives);
-
-  Colony(Colony&& other) = default;
-
-  Colony(const Colony&) = delete;
-
-  Colony& operator=(const Colony&) = delete;
-
-  Colony& operator=(Colony&&) = default;
+  Colony(std::vector<Hive>& colony_hives, size_t colony_index);
 
   [[nodiscard]] size_t GetIndex() const { return colony_index_; }
 
@@ -39,8 +29,6 @@ class Colony {
   std::unique_ptr<Ant> GetInitialQueen();
 
  private:
-  static size_t colony_count;
-
   std::unique_ptr<Ant> CreateAnt(const Vector2f& position);
 
   std::unique_ptr<Ant> MakeAnt(const Vector2f& position, AntType type);
@@ -53,8 +41,8 @@ class Colony {
 
   std::unique_ptr<Ant> MakeScout(const Vector2f& position);
 
+  std::vector<Hive>& hives_;
   size_t colony_index_;
-  std::vector<Hive*> hives_;
   std::array<GeneralData, 4> ant_general_data_;
   std::array<float, 4> ant_fractions_;
 };
@@ -65,9 +53,9 @@ template <class Iter>
 void Colony::Update(float delta_time, Iter ant_inserter) {
   int ant_cost = 1;
   for (auto& hive : hives_) {
-    while (hive->GetStorage().StoredFood() >= ant_cost) {
-      ant_inserter = std::move(CreateAnt(hive->GetPosition()));
-      hive->GetStorage().StoreFood(-ant_cost);
+    while (hive.GetStorage().StoredFood() >= ant_cost) {
+      ant_inserter = std::move(CreateAnt(hive.GetPosition()));
+      hive.GetStorage().StoreFood(-ant_cost);
     }
   }
 }

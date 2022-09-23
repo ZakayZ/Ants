@@ -3,9 +3,8 @@
 
 #include "Colony.h"
 
-size_t Colony::colony_count = 0;
-
-Colony::Colony(std::vector<Hive*>& colony_hives) : colony_index_(colony_count++), hives_(colony_hives) {
+Colony::Colony(std::vector<Hive>& colony_hives, size_t colony_index)
+    : hives_(colony_hives), colony_index_(colony_index) {
   for (auto& general_data : ant_general_data_) {
     general_data.colony_index = colony_index_;
   }
@@ -32,7 +31,7 @@ std::unique_ptr<Ant> Colony::CreateAnt(const Vector2f& position) {
 }
 
 std::unique_ptr<Ant> Colony::GetInitialQueen() {
-  return MakeQueen(hives_[0]->GetPosition());
+  return MakeQueen(hives_[0].GetPosition());
 }
 
 std::unique_ptr<Ant> Colony::MakeAnt(const Vector2f& position, AntType type) {

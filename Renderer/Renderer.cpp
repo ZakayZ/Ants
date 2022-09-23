@@ -34,14 +34,14 @@ void Renderer::Render(const World& world) {
 
   Render(world_data.map_);  /// draw background
 
-  Render(world_data.pheromone_map_);  ///
-
-  for (const auto& hive : world_data.hive_map_) {
-    Render(hive);
-  }
+  Render(world_data.pheromone_map_);
 
   for (const auto& food : world_data.food_map_) {
     Render(food);
+  }
+
+  for(const auto& colony: world.GetColonies()){
+    Render(colony);
   }
 
   for (const auto& ant : world.GetAnts()) {
@@ -50,6 +50,7 @@ void Renderer::Render(const World& world) {
 }
 
 void Renderer::Render(const TileMap& map) {
+  /// TODO
 }
 
 void Renderer::Render(const PheromoneMap& pheromone_map) {
@@ -57,14 +58,17 @@ void Renderer::Render(const PheromoneMap& pheromone_map) {
     for (int y = 0; y < pheromone_map.GetHeight(); ++y) {
       size_t index = 4 * (x * pheromone_map.GetHeight() + y);
 
-      auto home_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Home);
-      auto food_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Food);
-      uint8_t value;
+      auto enemy_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Enemy);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Enemy);
+      auto home_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Home);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Home);
+      auto food_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Food);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Food);
+      tile_map_[index + 0].color = tile_map_[index + 1].color =
+      tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Magenta;
+      uint8_t value = static_cast<uint8_t>(std::clamp(enemy_pheromone, 0.f, 1.f) * 255);
       if (home_pheromone < food_pheromone) {
         tile_map_[index + 0].color = tile_map_[index + 1].color =
         tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Cyan;
         value = static_cast<uint8_t>(std::clamp(food_pheromone, 0.f, 1.f) * 255);
-      } else {
+      } if (enemy_pheromone < home_pheromone) {
         tile_map_[index + 0].color = tile_map_[index + 1].color =
         tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Yellow;
         value = static_cast<uint8_t>(std::clamp(home_pheromone, 0.f, 1.f) * 255);
@@ -94,7 +98,7 @@ void Renderer::RenderCircle(const T& value, sf::Color color) {
 void Renderer::Render(const Colony& colony) {
   /// TODO colour
   for (const auto& hive : colony.GetHives()) {
-    Render(*hive);
+    Render(hive);
   }
 }
 

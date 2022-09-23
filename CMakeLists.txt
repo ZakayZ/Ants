@@ -14,6 +14,8 @@ set(Sources
         States/HomeSearchState.cpp
         States/RepellentPheromoneState.cpp
         States/StoreFoodState.cpp
+        States/SearchAlertState.cpp
+        States/AlertColonyState.cpp
 
         World/WorldData.cpp
         World/Sensor.cpp

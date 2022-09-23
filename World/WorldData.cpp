@@ -5,11 +5,12 @@
 #include "WorldData.h"
 #include "Sensor.h"
 
-WorldData::WorldData(Vector2i world_dimensions, const std::vector<FoodSource>& food, size_t colonies_number)
+WorldData::WorldData(
+    Vector2i world_dimensions, const std::vector<FoodSource>& food, const std::vector<std::vector<Hive>>& hives)
     : map_(world_dimensions),
-      pheromone_map_(colonies_number, world_dimensions),
+      pheromone_map_(hives.size(), world_dimensions),
       food_map_(food),
-      hive_map_({}),
+      hive_map_(hives),
       ant_map_(BoundaryBox2f({0.f, 0.f}, {float(world_dimensions[0]), float(world_dimensions[1])}), {50, 50}) {}
 
 void WorldData::Update(float delta_time) {
