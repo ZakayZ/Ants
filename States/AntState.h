@@ -13,6 +13,7 @@
 
 #include "AntData/MovementData.h"
 #include "AntData/GeneralData.h"
+#include "AntData/SensorData.h"
 
 #include "World/PheromoneType.h"
 
@@ -29,15 +30,17 @@ class AntState {
 
   [[nodiscard]] virtual StateType GetState() const = 0;
 
+  [[nodiscard]] size_t GetColonyIndex() const { return general_data_.colony_index; }
+
   [[nodiscard]] virtual Vector2f GetPheromoneSensorCenter() const {
     return move_data_.position + move_data_.velocity * (general_data_.pheromone_range / general_data_.max_speed);
   }
 
   [[nodiscard]] virtual float GetPheromoneSensorSize() const { return general_data_.pheromone_capacity; }
 
-  [[nodiscard]] virtual std::function<bool(const Ant&)> GetProximitySensor() const;
+  [[nodiscard]] virtual std::function<bool(Ant&)> GetProximitySensor() const;
 
-  [[nodiscard]] virtual std::function<void(const Ant&)> GetEnemySensor() const;
+  [[nodiscard]] virtual std::function<void(Ant&)> GetEnemySensor() const;
 
   [[nodiscard]] virtual Vector2f GetSensorCenter() const { return move_data_.position; };
 
@@ -52,6 +55,12 @@ class AntState {
   virtual ~AntState() = 0;
 
  protected:
+  inline void FollowPheromone(SensorData& sensor_data, float delta_time);
+
+  inline void Rotate();
+
+  inline void FollowPoint(const Vector2f& point) ;
+
   MovementData& move_data_;
   const GeneralData& general_data_;
   StateType change_state_;

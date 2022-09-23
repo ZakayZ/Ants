@@ -220,7 +220,6 @@ class SpatialHashing {
 
   template <class Functor, class Predicate>
   void ApplyInBox(const BoundaryBox<Space, Dimension>& box, Functor function, Predicate predicate) {
-    std::list<iterator, IterAlloc> objects;
     std::array<size_t, Dimension> begins;
     std::array<size_t, Dimension> ends;
     for (size_t i = 0; i < Dimension; ++i) {
@@ -261,7 +260,7 @@ class SpatialHashing {
   template <size_t Index, class Predicate, class InputIterator>
   void GetInBoxIterate(size_t current_hash,
                        const std::array<size_t, Dimension>& begins, const std::array<size_t, Dimension>& ends,
-                       InputIterator input, Predicate predicate) const {
+                       InputIterator input, Predicate predicate) {
     if constexpr (Index == Dimension) {
       for (auto& iter : buckets_[current_hash]) {
         if constexpr (PositionChecker<Object>::value) {
@@ -275,8 +274,9 @@ class SpatialHashing {
         }
       }
     } else {
-      for (size_t i = begins[Index]; i < ends[Index]; ++i) {
-        GetInBoxIterate<Index + 1>(current_hash + i * divisions_[Index], begins, ends, input, predicate);
+      auto upper_hash = current_hash * divisions_[Index];
+      for (size_t i = std::max(begins[Index], size_t(0)); i < std::min(ends[Index], divisions_[Index]); ++i) {
+        GetInBoxIterate<Index + 1>(upper_hash + i, begins, ends, input, predicate);
       }
     }
   }
@@ -284,7 +284,7 @@ class SpatialHashing {
   template <size_t Index, class Predicate, class Functor>
   void ApplyInBoxIterate(size_t current_hash,
                          const std::array<size_t, Dimension>& begins, const std::array<size_t, Dimension>& ends,
-                         Predicate predicate, Functor function) const {
+                         Predicate predicate, Functor function) {
     if constexpr (Index == Dimension) {
       for (auto& iter : buckets_[current_hash]) {
         if constexpr (PositionChecker<Object>::value) {
@@ -299,8 +299,9 @@ class SpatialHashing {
         }
       }
     } else {
-      for (size_t i = begins[Index]; i < ends[Index]; ++i) {
-        ApplyInBoxIterate<Index + 1>(current_hash + i * divisions_[Index], begins, ends, function, predicate);
+      auto upper_hash = current_hash * divisions_[Index];
+      for (size_t i = std::max(begins[Index], size_t(0)); i < std::min(ends[Index], divisions_[Index]); ++i) {
+        ApplyInBoxIterate<Index + 1>(upper_hash + i, begins, ends, function, predicate);
       }
     }
   }

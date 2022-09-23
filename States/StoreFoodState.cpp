@@ -10,7 +10,7 @@ StoreFoodState::StoreFoodState(SensorData& ant_senses, FoodData& ant_food, Phero
     : AntState(ant_move, ant_general), sensor_data_(ant_senses), food_data_(ant_food), pheromone_data_(ant_pheromone) {}
 
 void StoreFoodState::Decide(float delta_time) {
-  move_data_.target_direction = Normalised(sensor_data_.hive_position.value() - move_data_.position);
+  FollowPoint(sensor_data_.hive_position.value());
 
   if (sensor_data_.hive_storage.has_value()) {
     sensor_data_.hive_storage.value()->StoreFood(food_data_.carry_amount);

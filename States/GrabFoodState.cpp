@@ -10,14 +10,14 @@ GrabFoodState::GrabFoodState(SensorData& ant_senses, FoodData& ant_food, Pheromo
     : AntState(ant_move, ant_general), sensor_data_(ant_senses), food_data_(ant_food), pheromone_data_(ant_pheromone) {}
 
 void GrabFoodState::Decide(float delta_time) {
-  move_data_.target_direction = Normalised(sensor_data_.food_position.value() - move_data_.position);
+  FollowPoint(sensor_data_.food_position.value());
 
   if (sensor_data_.food_source.has_value()
       || (sensor_data_.food_position.value() - move_data_.position).SquaredLength()
           < std::pow(general_data_.ant_size, 2)) {
-    move_data_.velocity = -move_data_.velocity;
-    move_data_.target_direction = -move_data_.target_direction;
+    Rotate();
     change_state_ = StateType::RepellentPheromone;
+
     if (sensor_data_.food_source.has_value()) {
       food_data_.carry_amount =
           sensor_data_.food_source.value()->GetFood(general_data_.max_capacity - food_data_.carry_amount);

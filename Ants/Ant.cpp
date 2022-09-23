@@ -94,6 +94,20 @@ void Ant::ChangeState() {
     case StateType::RepellentPheromone: {
       ant_state_ =
           std::make_unique<RepellentPheromoneState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
+      pheromone_data_.pheromone_strength = general_data_.pheromone_capacity;
+      break;
+    }
+
+    case StateType::SearchAlert: {
+      ant_state_ =
+          std::make_unique<SearchAlertState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
+      pheromone_data_.pheromone_strength = general_data_.pheromone_capacity;
+      break;
+    }
+
+    case StateType::AlertColony: {
+      ant_state_ =
+          std::make_unique<AlertColonyState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
       break;
     }
   }

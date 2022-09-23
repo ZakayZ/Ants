@@ -23,6 +23,8 @@
 #include "States/GrabFoodState.h"
 #include "States/StoreFoodState.h"
 #include "States/RepellentPheromoneState.h"
+#include "States/SearchAlertState.h"
+#include "States/AlertColonyState.h"
 
 class Sensor;
 class WorldData;

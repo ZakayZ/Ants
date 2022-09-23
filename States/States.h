@@ -12,6 +12,8 @@ enum class StateType {
   GrabFood,
   StoreFood,
   RepellentPheromone,
+  SearchAlert,
+  AlertColony,
 };
 
 #endif //ANTS_STATES_STATES_H_

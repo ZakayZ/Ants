@@ -12,7 +12,6 @@ class StoreFoodState : public AntState {
   StoreFoodState(SensorData& ant_senses, FoodData& ant_food,
                  PheromoneData& ant_pheromone, MovementData& ant_move, const GeneralData& ant_general);
 
-
   [[nodiscard]] uint8_t Requirements() const override { return RequireHiveStorage; }
 
   [[nodiscard]] PheromoneType GetPheromoneType() const override { return PheromoneType::Home; }

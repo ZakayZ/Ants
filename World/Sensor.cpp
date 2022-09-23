@@ -66,7 +66,7 @@ void Sensor::DetectWalls(WorldData& world_data) {
 
 void Sensor::DetectHome(WorldData& world_data) {
   data_.hive_storage.reset();
-  for (auto& hive : world_data.hive_map_) {
+  for (auto& hive : world_data.hive_map_[state_data_->GetColonyIndex()]) {
     if ((hive.GetPosition() - movement_data_.position).SquaredLength() <=
         std::pow(general_data_.ant_size + hive.GetSize(), 2)) {
       data_.hive_storage = {&hive.GetStorage()};
@@ -99,7 +99,7 @@ void Sensor::DetectFoodPosition(WorldData& world_data) {
 
 void Sensor::DetectHomePosition(WorldData& world_data) {
   data_.hive_position.reset();
-  for (auto& hive : world_data.hive_map_) {
+  for (auto& hive : world_data.hive_map_[state_data_->GetColonyIndex()]) {
     if ((hive.GetPosition() - movement_data_.position).SquaredLength() <=
         std::pow(general_data_.visible_range + hive.GetSize(), 2)) {
       data_.hive_position = std::make_optional(hive.GetPosition());
@@ -118,6 +118,7 @@ void Sensor::DetectPheromone(WorldData& world_data) {
 }
 
 void Sensor::DetectAnts(WorldData& world_data) {
+  data_.target_ant.reset();
   auto size = state_data_->GetSensorSize();
   auto center = state_data_->GetSensorCenter();
   BoundaryBox2f box({center[0] - size, center[1] - size}, {center[0] + size, center[1] + size});
