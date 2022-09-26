@@ -10,12 +10,14 @@ set(Sources
 
         States/AntState.cpp
         States/FoodSearchState.cpp
-        States/GrabFoodState.cpp
         States/HomeSearchState.cpp
         States/RepellentPheromoneState.cpp
-        States/StoreFoodState.cpp
-        States/SearchAlertState.cpp
         States/AlertColonyState.cpp
+        States/EnemySearchState.cpp
+        States/AttackEnemyState.cpp
+        States/DefendingState.cpp
+        States/ScoutingState.cpp
+        States/AtHomeState.cpp
 
         World/WorldData.cpp
         World/Sensor.cpp

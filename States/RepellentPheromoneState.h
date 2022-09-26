@@ -9,8 +9,7 @@
 
 class RepellentPheromoneState : public HomeSearchState {
  public:
-  RepellentPheromoneState(SensorData& ant_senses, PheromoneData& ant_pheromone,
-                          MovementData& ant_move, const GeneralData& ant_general);
+  using ::HomeSearchState::HomeSearchState;
 
   void Decide(float delta_time) override;
 

@@ -10,8 +10,7 @@
 
 class AlertColonyState : public AntState {
  public:
-  AlertColonyState(SensorData& ant_senses, PheromoneData& ant_pheromone,
-                   MovementData& ant_move, const GeneralData& ant_general);
+  using ::AntState::AntState;
 
   [[nodiscard]] uint8_t Requirements() const override { return RequireHiveStorage; }
 
@@ -24,8 +23,6 @@ class AlertColonyState : public AntState {
   void Interact(WorldData& world_data, float delta_time) override;
 
  private:
-  SensorData& sensor_data_;
-  PheromoneData& pheromone_data_;
 };
 
 #endif //ANTS_STATES_ALERTCOLONYSTATE_H_

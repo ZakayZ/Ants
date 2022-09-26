@@ -22,14 +22,6 @@ void Sensor::Sense(WorldData& world_data) {
     DetectFood(world_data);
   }
 
-  if (requirements & RequireFood) {
-    DetectFoodPosition(world_data);
-  }
-
-  if (requirements & RequireHome) {
-    DetectHomePosition(world_data);
-  }
-
   if (requirements & RequirePheromone) {
     DetectPheromone(world_data);
   }
@@ -66,10 +58,19 @@ void Sensor::DetectWalls(WorldData& world_data) {
 
 void Sensor::DetectHome(WorldData& world_data) {
   data_.hive_storage.reset();
+  data_.hive_storage.reset();
+
   for (auto& hive : world_data.hive_map_[state_data_->GetColonyIndex()]) {
-    if ((hive.GetPosition() - movement_data_.position).SquaredLength() <=
-        std::pow(general_data_.ant_size + hive.GetSize(), 2)) {
-      data_.hive_storage = {&hive.GetStorage()};
+    auto sq_length = (hive.GetPosition() - movement_data_.position).SquaredLength();
+
+    if (sq_length <= std::pow(general_data_.ant_size + hive.GetSize(), 2)) {
+      data_.hive_storage = std::make_optional(&hive.GetStorage());
+      data_.hive_position = std::make_optional(hive.GetPosition());
+      break;
+    }
+
+    if (sq_length <= std::pow(general_data_.visible_range + hive.GetSize(), 2)) {
+      data_.hive_position = std::make_optional(hive.GetPosition());
       break;
     }
   }
@@ -77,32 +78,19 @@ void Sensor::DetectHome(WorldData& world_data) {
 
 void Sensor::DetectFood(WorldData& world_data) {
   data_.food_source.reset();
-  for (auto& food_source : world_data.food_map_) {
-    if ((food_source.GetPosition() - movement_data_.position).SquaredLength() <=
-        std::pow(general_data_.ant_size + food_source.GetSize(), 2)) {
-      data_.food_source = {&food_source};
-      break;
-    }
-  }
-}
-
-void Sensor::DetectFoodPosition(WorldData& world_data) {
   data_.food_position.reset();
+
   for (auto& food_source : world_data.food_map_) {
-    if ((food_source.GetPosition() - movement_data_.position).SquaredLength() <=
-        std::pow(general_data_.visible_range + food_source.GetSize(), 2)) {
+    auto sq_length = (food_source.GetPosition() - movement_data_.position).SquaredLength();
+
+    if (sq_length <= std::pow(general_data_.ant_size + food_source.GetSize(), 2)) {
+      data_.food_source = std::make_optional(&food_source);
       data_.food_position = std::make_optional(food_source.GetPosition());
       break;
     }
-  }
-}
 
-void Sensor::DetectHomePosition(WorldData& world_data) {
-  data_.hive_position.reset();
-  for (auto& hive : world_data.hive_map_[state_data_->GetColonyIndex()]) {
-    if ((hive.GetPosition() - movement_data_.position).SquaredLength() <=
-        std::pow(general_data_.visible_range + hive.GetSize(), 2)) {
-      data_.hive_position = std::make_optional(hive.GetPosition());
+    if (sq_length <= std::pow(general_data_.visible_range + food_source.GetSize(), 2)) {
+      data_.food_position = std::make_optional(food_source.GetPosition());
       break;
     }
   }

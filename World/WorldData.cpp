@@ -11,7 +11,7 @@ WorldData::WorldData(
       pheromone_map_(hives.size(), world_dimensions),
       food_map_(food),
       hive_map_(hives),
-      ant_map_(BoundaryBox2f({0.f, 0.f}, {float(world_dimensions[0]), float(world_dimensions[1])}), {50, 50}) {}
+      ant_map_(BoundaryBox2f({0.f, 0.f}, {float(world_dimensions[0]), float(world_dimensions[1])}), {20, 20}) {}
 
 void WorldData::Update(float delta_time) {
   /// Move all ants

@@ -14,6 +14,7 @@
 #include "AntData/MovementData.h"
 #include "AntData/GeneralData.h"
 #include "AntData/SensorData.h"
+#include "AntData/PheromoneData.h"
 
 #include "World/PheromoneType.h"
 
@@ -22,7 +23,7 @@ class WorldData;
 
 class AntState {
  public:
-  AntState(MovementData& ant_move, const GeneralData& ant_general);
+  AntState(SensorData& ant_sensor, PheromoneData& ant_pheromone, MovementData& ant_move, const GeneralData& ant_general);
 
   [[nodiscard]] virtual uint8_t Requirements() const { return 0; }
 
@@ -38,7 +39,7 @@ class AntState {
 
   [[nodiscard]] virtual float GetPheromoneSensorSize() const { return general_data_.pheromone_capacity; }
 
-  [[nodiscard]] virtual std::function<bool(Ant&)> GetProximitySensor() const;
+  [[nodiscard]] virtual std::function<bool(Ant&)> GetProximitySensor() const;  ///  delegate it to sensor
 
   [[nodiscard]] virtual std::function<void(Ant&)> GetEnemySensor() const;
 
@@ -55,12 +56,25 @@ class AntState {
   virtual ~AntState() = 0;
 
  protected:
-  inline void FollowPheromone(SensorData& sensor_data, float delta_time);
+  inline void FollowPheromone(float delta_time) {
+    if (sensor_data_.pheromone_strength > 0.01f) {
+      move_data_.target_direction =
+          Normalised(move_data_.target_direction + (delta_time * sensor_data_.pheromone_strength)
+              * (sensor_data_.pheromone_center - move_data_.position));
+    }
+  }
 
-  inline void Rotate();
+  inline void Rotate() {
+    move_data_.target_direction = -move_data_.target_direction;
+    move_data_.velocity = -move_data_.velocity;
+  }
 
-  inline void FollowPoint(const Vector2f& point) ;
+  inline void FollowPoint(const Vector2f& point) {
+    move_data_.target_direction = Normalised(point - move_data_.position);
+  }
 
+  SensorData& sensor_data_;
+  PheromoneData& pheromone_data_;
   MovementData& move_data_;
   const GeneralData& general_data_;
   StateType change_state_;

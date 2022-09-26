@@ -9,11 +9,13 @@ enum class StateType {
   None,
   FoodSearch,
   HomeSearch,
-  GrabFood,
-  StoreFood,
   RepellentPheromone,
-  SearchAlert,
   AlertColony,
+  EnemySearch,
+  AttackEnemy,
+  Defending,
+  Scouting,
+  Idle,
 };
 
 #endif //ANTS_STATES_STATES_H_

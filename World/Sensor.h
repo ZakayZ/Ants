@@ -25,8 +25,6 @@ class Sensor {
 
   void DetectFoodPosition(WorldData& world_data);
 
-  void DetectHomePosition(WorldData& world_data);
-
   void DetectPheromone(WorldData& world_data);
 
   void DetectAnts(WorldData& world_data);

@@ -70,7 +70,7 @@ void Renderer::Render(const PheromoneMap& pheromone_map) {
         value = static_cast<uint8_t>(std::clamp(food_pheromone, 0.f, 1.f) * 255);
       } if (enemy_pheromone < home_pheromone) {
         tile_map_[index + 0].color = tile_map_[index + 1].color =
-        tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Yellow;
+        tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Blue;
         value = static_cast<uint8_t>(std::clamp(home_pheromone, 0.f, 1.f) * 255);
       }
 
@@ -103,7 +103,7 @@ void Renderer::Render(const Colony& colony) {
 }
 
 void Renderer::Render(const Hive& hive) {
-  auto color = sf::Color::Cyan;
+  auto color = sf::Color::Yellow;
   RenderCircle(hive, color);
 }
 

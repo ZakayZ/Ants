@@ -5,17 +5,17 @@
 #include "World/WorldData.h"
 #include "HomeSearchState.h"
 
-HomeSearchState::HomeSearchState(SensorData& ant_senses, PheromoneData& ant_pheromone,
-                                 MovementData& ant_move, const GeneralData& ant_general)
-    : AntState(ant_move, ant_general), sensor_data_(ant_senses), pheromone_data_(ant_pheromone) {}
-
 void HomeSearchState::Decide(float delta_time) {
   if (sensor_data_.hive_position.has_value()) {
-    change_state_ = StateType::StoreFood;
-    return;
-  }
+    if (sensor_data_.hive_storage.has_value()) {
+      change_state_ = StateType::Idle;
+      return;
+    }
 
-  FollowPheromone(sensor_data_, delta_time);
+    FollowPoint(sensor_data_.hive_position.value());
+  } else {
+    FollowPheromone(delta_time);
+  }
 }
 
 void HomeSearchState::Interact(WorldData& world_data, float delta_time) {
