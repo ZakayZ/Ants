@@ -29,7 +29,6 @@ void Ant::Interact(WorldData& world_data, float delta_time) {
 }
 
 Sensor Ant::GetSensor() {
-  ant_state_->GetState();
   return {ant_state_, general_data_, movement_data_, sensor_data_};
 }
 
@@ -135,8 +134,8 @@ void Ant::Move(float delta_time) {
 void Ant::AvoidObstacle() {
   if (sensor_data_.is_wall_ahead) {
     for (size_t i = 0; i < 2; ++i) {  /// for both dimension
-      if (sensor_data_.wall_data[i] > 0 && movement_data_.velocity[i] > 0 ||
-          sensor_data_.wall_data[i] < 0 && movement_data_.velocity[i] < 0) {
+      if ((sensor_data_.wall_data[i] > 0 && movement_data_.velocity[i] > 0) ||
+          (sensor_data_.wall_data[i] < 0 && movement_data_.velocity[i] < 0)) {
         movement_data_.velocity[i] = -movement_data_.velocity[i];
         movement_data_.target_direction[i] = -movement_data_.target_direction[i];
       }

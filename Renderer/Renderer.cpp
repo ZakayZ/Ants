@@ -40,7 +40,7 @@ void Renderer::Render(const World& world) {
     Render(food);
   }
 
-  for(const auto& colony: world.GetColonies()){
+  for (const auto& colony : world.GetColonies()) {
     Render(colony);
   }
 
@@ -54,13 +54,22 @@ void Renderer::Render(const TileMap& map) {
 }
 
 void Renderer::Render(const PheromoneMap& pheromone_map) {
-  for (int x = 0; x < pheromone_map.GetWidth(); ++x) {
-    for (int y = 0; y < pheromone_map.GetHeight(); ++y) {
+  for (size_t x = 0; x < pheromone_map.GetWidth(); ++x) {
+    for (size_t y = 0; y < pheromone_map.GetHeight(); ++y) {
       size_t index = 4 * (x * pheromone_map.GetHeight() + y);
 
-      auto enemy_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Enemy);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Enemy);
-      auto home_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Home);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Home);
-      auto food_pheromone = pheromone_map.GetPheromone(0, x, y, PheromoneType::Food);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Food);
+      auto enemy_pheromone = pheromone_map.GetPheromone(0,
+                                                        x,
+                                                        y,
+                                                        PheromoneType::Enemy);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Enemy);
+      auto home_pheromone = pheromone_map.GetPheromone(0,
+                                                       x,
+                                                       y,
+                                                       PheromoneType::Home);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Home);
+      auto food_pheromone = pheromone_map.GetPheromone(0,
+                                                       x,
+                                                       y,
+                                                       PheromoneType::Food);// + pheromone_map.GetPheromone(1, x, y, PheromoneType::Food);
       tile_map_[index + 0].color = tile_map_[index + 1].color =
       tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Magenta;
       uint8_t value = static_cast<uint8_t>(std::clamp(enemy_pheromone, 0.f, 1.f) * 255);
@@ -68,7 +77,8 @@ void Renderer::Render(const PheromoneMap& pheromone_map) {
         tile_map_[index + 0].color = tile_map_[index + 1].color =
         tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Cyan;
         value = static_cast<uint8_t>(std::clamp(food_pheromone, 0.f, 1.f) * 255);
-      } if (enemy_pheromone < home_pheromone) {
+      }
+      if (enemy_pheromone < home_pheromone) {
         tile_map_[index + 0].color = tile_map_[index + 1].color =
         tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color::Blue;
         value = static_cast<uint8_t>(std::clamp(home_pheromone, 0.f, 1.f) * 255);
@@ -108,6 +118,11 @@ void Renderer::Render(const Hive& hive) {
 }
 
 void Renderer::Render(const Ant& ant) {
-  auto color = sf::Color::Red;
+  sf::Color color;
+  if (ant.GetColonyIndex() == 0) {  /// TODO
+    color = sf::Color::Red;
+  } else {
+    color = sf::Color::White;
+  }
   RenderCircle(ant, color);
 }

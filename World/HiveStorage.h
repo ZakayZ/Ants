@@ -7,11 +7,17 @@
 
 class HiveStorage {
  public:
-  HiveStorage(int initial_capacity) : stored_food_(initial_capacity) {}
+  HiveStorage(int initial_capacity) : stored_food_(initial_capacity), enemy_pheromone_(0.f) {}
 
   void StoreFood(int carried_food) { stored_food_ += carried_food; }
 
   void Alert(float pheromone_level) { enemy_pheromone_ += pheromone_level; }
+
+  [[nodiscard]] float EnemySignal() {
+    auto copy = enemy_pheromone_;
+    enemy_pheromone_ = 0;
+    return copy;
+  }
 
   [[nodiscard]] int StoredFood() const { return stored_food_; }
 

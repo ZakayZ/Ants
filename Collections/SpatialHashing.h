@@ -59,7 +59,7 @@ class SpatialHashing {
 
  public:
   SpatialHashing(const BoundaryBox<Space, Dimension>& box, const std::array<size_t, Dimension>& divisions)
-      : data_(), buckets_(), space_(box), divisions_(divisions) {
+      : data_(), buckets_(), divisions_(divisions), space_(box) {
     size_t bucket_size = 1;
     for (auto& dim_size : divisions_) {
       bucket_size *= dim_size;
@@ -113,7 +113,7 @@ class SpatialHashing {
   }
 
   template <bool Access = has_position<Object>, typename = std::enable_if_t<Access>>
-  iterator emplace(const_iterator pos, Object&& object, const Vector<Space, Dimension>& position) {
+  iterator emplace(const_iterator pos, Object&& object) {
     if constexpr (PositionChecker<Object>::value) {
       return emplace(pos, object.GetPosition(), std::move(object));
     } else {

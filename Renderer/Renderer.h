@@ -45,8 +45,8 @@ class Renderer {
   void Render(const Ant& ant);
 
   sf::RenderWindow& window_;
-  sf::VertexArray tile_map_;
   sf::View view_;
+  sf::VertexArray tile_map_;
 };
 
 #endif //ANTS__RENDERER_H_

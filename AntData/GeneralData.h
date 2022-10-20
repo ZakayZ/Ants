@@ -27,7 +27,7 @@ struct GeneralData {
 
   /// fight related
   int attack_damage = 5;
-  int max_health = 100;
+  int max_health = 10000;
   float attack_delay = 0.1;
 
   /// colony related
@@ -87,7 +87,7 @@ struct ScoutGeneralData : GeneralData {
     repellent_duration = 2.f;
 
     /// fight related
-    attack_damage = 2;
+    attack_damage = 3;
     max_health = 50;
     attack_delay = 0.1;
 
@@ -118,7 +118,7 @@ struct SoldierGeneralData : GeneralData {
     repellent_duration = 0.f;
 
     /// fight related
-    attack_damage = 15;
+    attack_damage = 20;
     max_health = 200;
     attack_delay = 0.1;
 

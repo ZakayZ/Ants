@@ -28,7 +28,7 @@ std::function<bool(Ant&)> AntState::GetProximitySensor() const {
   };
 }
 
-std::function<void(Ant&)> AntState::GetEnemySensor() const { return [](Ant& ant) {}; }
+std::function<void(Ant&)> AntState::GetEnemySensor() const { return [](Ant&) {}; }
 
 Vector2f AntState::GetSensorCenter() const { return host_.movement_data_.position; }
 

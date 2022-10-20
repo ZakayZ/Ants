@@ -44,8 +44,8 @@ class PheromoneMap {
 
   void UpdateTile(PheromoneTile& tile) const;
 
-  float evaporation_rate_;
   mutable std::vector<std::vector<std::vector<PheromoneTile>>> pheromone_map_;
+  float evaporation_rate_;
 };
 
 #endif //ANTS__PHEROMONEMAP_H_

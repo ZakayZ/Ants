@@ -17,18 +17,19 @@ Colony::Colony(std::vector<Hive>& colony_hives, size_t colony_index)
   ant_general_data_[AntType::kQueen].host_type = AntType::kQueen;
 
   ant_fractions_[AntType::kQueen] = 0;
-  ant_fractions_[AntType::kWorker] = 0.5f;
-  ant_fractions_[AntType::kSoldier] = 0;
-  ant_fractions_[AntType::kScout] = 0.5f;
+  ant_fractions_[AntType::kWorker] = 0.8f;
+  ant_fractions_[AntType::kSoldier] = 0.0f;
+  ant_fractions_[AntType::kScout] = 0.1f;
 }
 
 std::unique_ptr<Ant> Colony::CreateAnt(const Vector2f& position) {
   AntType type = AntType::kWorker;
 
+  float total = ant_fractions_[0] + ant_fractions_[1] + ant_fractions_[2] + ant_fractions_[3];
   int rand_value = rand() % 1000;
   int cumulative_value = 0;
   for (size_t i = 0; i < ant_fractions_.size(); ++i) {
-    int addition = static_cast<int>(ant_fractions_[i] * 1000.f);
+    int addition = static_cast<int>(ant_fractions_[i] / total * 1000.f);
     if (rand_value < cumulative_value + addition) {
       type = AntType(i);
       break;

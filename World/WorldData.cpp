@@ -15,10 +15,14 @@ WorldData::WorldData(
 
 void WorldData::Update(float delta_time) {
   /// Move all ants
-  for (auto& ant : ant_map_) {
-    ant.object->GetSensor().Sense(*this);
-    ant.object->Interact(*this, delta_time);
-    ant.object->Update(delta_time);
+  for (auto it = ant_map_.begin(); it != ant_map_.end(); ++it) {
+    auto& ant = *it->object;
+    ant.GetSensor().Sense(*this);
+    ant.Interact(*this, delta_time);
+    ant.Update(delta_time);
+    if (!ant.IsAlive()) {
+      ant_map_.erase(it--);
+    }
   }
   ant_map_.UpdatePositions();
 

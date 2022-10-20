@@ -38,7 +38,6 @@ void AttackEnemyState::Decide(float delta_time) {
 
   if ((ant.GetPosition() - host_.GetPosition()).SquaredLength()
       <= std::pow(host_.GetSensorData().target_ant.value()->GetSize() + general_data_.ant_size, 2)) {
-    host_.StoreFood();
     ant.InitiateFight();
     attack_cooldown_ -= delta_time;
     if (attack_cooldown_ <= 0.f) {

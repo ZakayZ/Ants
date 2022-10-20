@@ -53,11 +53,14 @@ template <class Iter>
 void Colony::Update(float delta_time, Iter ant_inserter) {
   int ant_cost = 1;
   for (auto& hive : hives_) {
+    ant_fractions_[AntType::kSoldier] += hive.GetStorage().EnemySignal();
+
     while (hive.GetStorage().StoredFood() >= ant_cost) {
       ant_inserter = std::move(CreateAnt(hive.GetPosition()));
       hive.GetStorage().StoreFood(-ant_cost);
     }
   }
+  ant_fractions_[AntType::kSoldier] *= (1.f - 0.05f);
 }
 
 #endif //ANTS__COLONY_H_
