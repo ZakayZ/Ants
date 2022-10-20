@@ -11,7 +11,7 @@ class Queen : public Ant {
  public:
   Queen(const Vector2f& position, GeneralData& general_data)
       : Ant(position, general_data) {
-    ant_state_ = std::make_unique<FoodSearchState>(food_data_, sensor_data_, pheromone_data_, movement_data_, general_data_);  /// TODO
+    ChangeState<FoodSearchState>(); /// TODO
   }
  private:
 };

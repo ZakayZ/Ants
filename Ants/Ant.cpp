@@ -7,8 +7,8 @@
 #include "Ant.h"
 
 Ant::Ant(const Vector2f& position, const GeneralData& general_data)
-    : movement_data_(position), general_data_(general_data), pheromone_data_(general_data.pheromone_capacity),
-      fight_data_(general_data.max_health) {
+    : movement_data_(position), sensor_data_(), food_data_(), general_data_(general_data),
+      pheromone_data_(general_data.pheromone_capacity), fight_data_(general_data.max_health) {
   movement_data_.target_direction = RandomGenerator().GetVector2f();
   movement_data_.random_cooldown = general_data.wander_cooldown * RandomGenerator().GetValue();
 
@@ -19,7 +19,6 @@ Ant::~Ant() { --general_data_.ant_count; }
 
 void Ant::Update(float delta_time) {
   ant_state_->Decide(delta_time);
-  ChangeState();
   AvoidObstacle();
   Move(delta_time);
 }
@@ -30,18 +29,88 @@ void Ant::Interact(WorldData& world_data, float delta_time) {
 }
 
 Sensor Ant::GetSensor() {
+  ant_state_->GetState();
   return {ant_state_, general_data_, movement_data_, sensor_data_};
+}
+
+void Ant::ResetPheromone() {
+  pheromone_data_.pheromone_strength = general_data_.pheromone_capacity;
+}
+
+void Ant::TakeFood() {
+  food_data_.carry_amount = sensor_data_.food_source.value()
+      ->GetFood(general_data_.max_capacity - food_data_.carry_amount);
+}
+
+void Ant::StoreFood() {
+  sensor_data_.hive_storage.value()->StoreFood(food_data_.carry_amount);
+  food_data_.carry_amount = 0;
+}
+
+void Ant::AlertColony() {
+  sensor_data_.hive_storage.value()->Alert(pheromone_data_.pheromone_strength);
+}
+
+void Ant::SetTarget(Ant& ant) {
+  sensor_data_.target_ant = &ant;
+}
+
+void Ant::Stop() {
+  movement_data_.velocity[0] = movement_data_.velocity[1] = 0.f;
 }
 
 void Ant::InitiateFight() {
   if (ant_state_->GetState() != StateType::Defending && ant_state_->GetState() != StateType::AttackEnemy) {
-    ant_state_ = std::make_unique<DefendingState>(ant_state_->GetState(), sensor_data_, pheromone_data_,
-                                                  movement_data_, general_data_);
+    ChangeState<DefendingState>();
   }
 }
 
 void Ant::ReceiveDamage(int damage) {
   fight_data_.health -= damage;
+}
+
+void Ant::ChangeState(StateType new_state) {
+  switch (new_state) {
+    case StateType::None: {
+      throw std::runtime_error("invalid state");
+    }
+    case StateType::FoodSearch: {
+      ChangeState<FoodSearchState>();
+      break;
+    }
+    case StateType::HomeSearch: {
+      ChangeState<HomeSearchState>();
+      break;
+    }
+    case StateType::RepellentPheromone: {
+      ChangeState<RepellentPheromoneState>();
+      break;
+    }
+    case StateType::AlertColony: {
+      ChangeState<AlertColonyState>();
+      break;
+    }
+    case StateType::EnemySearch: {
+      ChangeState<EnemySearchState>();
+      break;
+    }
+    case StateType::AttackEnemy: {
+      ChangeState<AttackEnemyState>();
+      break;
+    }
+    case StateType::Defending: {
+      ChangeState<DefendingState>();
+      break;
+    }
+    case StateType::Scouting: {
+      ChangeState<ScoutingState>();
+      break;
+    }
+    case StateType::Idle: {
+      ChangeState<AtHomeState>();
+      break;
+    }
+  }
 }
 
 void Ant::Move(float delta_time) {
@@ -75,59 +144,47 @@ void Ant::AvoidObstacle() {
   }
 }
 
-void Ant::ChangeState() {
-  switch (ant_state_->StateTransition()) {
-    case StateType::None: { break; }
-
-    case StateType::FoodSearch: {
-      ant_state_ = std::make_unique<FoodSearchState>(food_data_, sensor_data_, pheromone_data_,
-                                                     movement_data_, general_data_);
-      break;
-    }
-
-    case StateType::HomeSearch: {
-      ant_state_ = std::make_unique<HomeSearchState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
-      break;
-    }
-
-    case StateType::RepellentPheromone: {
-      ant_state_ =
-          std::make_unique<RepellentPheromoneState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
-      break;
-    }
-
-    case StateType::AlertColony: {
-      ant_state_ =
-          std::make_unique<AlertColonyState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
-      break;
-    }
-
-    case StateType::EnemySearch: {
-      ant_state_ =
-          std::make_unique<EnemySearchState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
-      break;
-    }
-
-    case StateType::AttackEnemy: {
-      ant_state_ =
-          std::make_unique<AttackEnemyState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
-      break;
-    }
-
-    case StateType::Defending: {
-      ant_state_ = std::make_unique<DefendingState>(ant_state_->GetState(), sensor_data_, pheromone_data_,
-                                                    movement_data_, general_data_);
-      break;
-    }
-    case StateType::Scouting: {
-      ant_state_ = std::make_unique<ScoutingState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
-      break;
-    }
-
-    case StateType::Idle: {
-      ant_state_ = std::make_unique<AtHomeState>(ant_state_->GetState(), food_data_, sensor_data_, pheromone_data_,
-                                                 movement_data_, general_data_);
-      break;
-    }
-  }
-}
+//template <>
+//void Ant::ChangeState<FoodSearchState>(...) {
+//  ant_state_ = std::make_unique<FoodSearchState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<HomeSearchState>(...) {
+//  ant_state_ = std::make_unique<HomeSearchState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<RepellentPheromoneState>(...) {
+//  ant_state_ = std::make_unique<RepellentPheromoneState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<AlertColonyState>(...) {
+//  ant_state_ = std::make_unique<AlertColonyState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<EnemySearchState>(...) {
+//  ant_state_ = std::make_unique<EnemySearchState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<AttackEnemyState>(...) {
+//  ant_state_ = std::make_unique<AttackEnemyState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<DefendingState>(...) {
+//  ant_state_ = std::make_unique<DefendingState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<ScoutingState>(...) {
+//  ant_state_ = std::make_unique<ScoutingState>(*this);
+//}
+//
+//template <>
+//void Ant::ChangeState<AtHomeState>(...) {
+//  ant_state_ = std::make_unique<AtHomeState>(*this);
+//}

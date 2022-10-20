@@ -20,8 +20,6 @@ class HomeSearchState : public AntState {
   void Decide(float delta_time) override;
 
   void Interact(WorldData& world_data, float delta_time) override;
-
- protected:
 };
 
 #endif //ANTS_STATES_HOMESEARCHSTATE_H_

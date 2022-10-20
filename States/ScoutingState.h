@@ -24,8 +24,6 @@ class ScoutingState : public AntState {
   void Decide(float delta_time) override;
 
   void Interact(WorldData& world_data, float delta_time) override;
-
- private:
 };
 
 #endif //ANTS_STATES_SCOUTINGSTATE_H_

@@ -40,7 +40,7 @@ void Sensor::DetectWalls(WorldData& world_data) {
     data_.wall_data[0] = 1.f;
   }
 
-  if (world_data.map_.HasObstacle(tile_position[0] - 1, tile_position[1])) {
+  if (tile_position[0] <= 0 || world_data.map_.HasObstacle(tile_position[0] - 1, tile_position[1])) {
     data_.is_wall_ahead = true;
     data_.wall_data[0] = -1.f;
   }
@@ -50,7 +50,7 @@ void Sensor::DetectWalls(WorldData& world_data) {
     data_.wall_data[1] = 1.f;
   }
 
-  if (world_data.map_.HasObstacle(tile_position[0], tile_position[1] - 1)) {
+  if (tile_position[1] <= 0 || world_data.map_.HasObstacle(tile_position[0], tile_position[1] - 1)) {
     data_.is_wall_ahead = true;
     data_.wall_data[1] = -1.f;
   }

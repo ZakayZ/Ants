@@ -4,15 +4,17 @@
 
 #include "World/WorldData.h"
 #include "HomeSearchState.h"
+#include "Ants/Ant.h"
+#include "World/Sensor.h"
 
 void HomeSearchState::Decide(float delta_time) {
-  if (sensor_data_.hive_position.has_value()) {
-    if (sensor_data_.hive_storage.has_value()) {
-      change_state_ = StateType::Idle;
+  if (host_.GetSensorData().hive_position.has_value()) {
+    if (host_.GetSensorData().hive_storage.has_value()) {
+      host_.ChangeState<AtHomeState>();
       return;
     }
 
-    FollowPoint(sensor_data_.hive_position.value());
+    FollowPoint(host_.GetSensorData().hive_position.value());
   } else {
     FollowPheromone(delta_time);
   }
@@ -20,7 +22,7 @@ void HomeSearchState::Decide(float delta_time) {
 
 void HomeSearchState::Interact(WorldData& world_data, float delta_time) {
   world_data.pheromone_map_.LayPheromone(general_data_.colony_index,
-                                         move_data_.position,
-                                         pheromone_data_.pheromone_strength * delta_time,
+                                         host_.GetPosition(),
+                                         host_.GetPheromoneData().pheromone_strength * delta_time,
                                          PheromoneType::Food);
 }

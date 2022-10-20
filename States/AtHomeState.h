@@ -9,8 +9,7 @@
 
 class AtHomeState : public AntState {
  public:
-  AtHomeState(StateType previous_state, FoodData& ant_food, SensorData& ant_sensor, PheromoneData& ant_pheromone,
-              MovementData& ant_move, const GeneralData& ant_general);
+  using ::AntState::AntState;
 
   [[nodiscard]] uint8_t Requirements() const override { return RequireHiveStorage; }
 
@@ -21,10 +20,6 @@ class AtHomeState : public AntState {
   void Decide(float delta_time) override;
 
   void Interact(WorldData& world_data, float delta_time) override;
-
- private:
-  StateType previous_state_;
-  FoodData& food_data_;
 };
 
 #endif //ANTS_STATES_ATHOMESTATE_H_

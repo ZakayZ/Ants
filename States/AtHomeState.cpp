@@ -5,46 +5,38 @@
 #include "World/WorldData.h"
 #include "AtHomeState.h"
 
-AtHomeState::AtHomeState(StateType previous_state, FoodData& ant_food, SensorData& ant_sensor,
-                         PheromoneData& ant_pheromone, MovementData& ant_move, const GeneralData& ant_general)
-    : AntState(ant_sensor, ant_pheromone, ant_move, ant_general),
-      previous_state_(previous_state),
-      food_data_(ant_food) {}
-
 void AtHomeState::Decide(float delta_time) {
   ///  refill
-  pheromone_data_.pheromone_strength = general_data_.pheromone_capacity;
+  host_.ResetPheromone();
 
   ///  came with food
-  if (food_data_.carry_amount != 0) {
-    sensor_data_.hive_storage.value()->StoreFood(food_data_.carry_amount);
-    food_data_.carry_amount = 0;
+  if (host_.GetFoodData().carry_amount != 0) {
+    host_.StoreFood();
   }
 
   Rotate();
 
   switch (general_data_.host_type) {
     case kWorker: {
-      change_state_ = StateType::FoodSearch;
-      break;
+      host_.ChangeState<FoodSearchState>();
+      return;
     }
 
     case kScout: {
-      change_state_ = StateType::Scouting;
-      break;
+      host_.ChangeState<ScoutingState>();
+      return;
     }
 
     case kSoldier: {
-      change_state_ = StateType::EnemySearch;
-      break;
+      host_.ChangeState<EnemySearchState>();
+      return;
     }
 
     case kQueen: {
-      change_state_ = StateType::FoodSearch;
-      break;
+      host_.ChangeState<FoodSearchState>(); /// TODO
+      return;
     }
   }
 }
 
 void AtHomeState::Interact(WorldData& world_data, float delta_time) {}
-

@@ -38,6 +38,7 @@ class Ant {
 
   virtual ~Ant() = 0;
 
+  /// getters
   [[nodiscard]] const MovementData& GetMoveData() const { return movement_data_; }
 
   [[nodiscard]] const SensorData& GetSensorData() { return sensor_data_; }
@@ -62,26 +63,53 @@ class Ant {
 
   [[nodiscard]] bool IsAlive() const { return fight_data_.health > 0; }
 
+  /// world interaction
   void Update(float delta_time);
 
   void Interact(WorldData& world_data, float delta_time);
 
   Sensor GetSensor();
 
+  /// commands
+  void ResetPheromone();
+
+  void TakeFood();
+
+  void StoreFood();
+
+  void AlertColony();
+
+  void SetTarget(Ant& ant);
+
+  void Stop();
+
+  /// ant interaction
   void InitiateFight();
 
   void ReceiveDamage(int damage);
 
+  template <class State, bool Access = std::is_base_of_v<AntState, State>, typename = std::enable_if_t<Access>>
+  void ChangeState() {
+    ant_state_ = std::make_unique<State>(*this);
+  }
+
+  template <>
+  void ChangeState<DefendingState>() {
+    ant_state_ = std::make_unique<DefendingState>(*this, ant_state_->GetState());
+  }
+
+  void ChangeState(StateType new_state);
+
  protected:
+  friend class AntState;
+
   void Move(float delta_time);
 
   void AvoidObstacle();
 
-  void ChangeState();
-
   MovementData movement_data_;
-  SensorData sensor_data_{};
-  FoodData food_data_{};
+  SensorData sensor_data_;
+  FoodData food_data_;
   const GeneralData& general_data_;
   PheromoneData pheromone_data_;
   FightData fight_data_;

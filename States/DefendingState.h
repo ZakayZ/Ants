@@ -10,8 +10,7 @@
 
 class DefendingState : public AntState{
  public:
-  DefendingState(StateType last_state, SensorData& ant_sensor, PheromoneData& ant_pheromone,
-                 MovementData& ant_move, const GeneralData& ant_general);
+  DefendingState(Ant& host, StateType last_state);
 
   [[nodiscard]] uint8_t Requirements() const override { return RequireAnt; }
 

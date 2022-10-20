@@ -75,7 +75,7 @@ class SpatialHashing {
 
   SpatialHashing(SpatialHashing&& other) noexcept
       : data_(std::move(other.data_)), buckets_(std::move(other.buckets_)),
-        divisions_(std::move(other.divisions_)), space_(std::move(other.space_)), size_(other.size_) {
+        divisions_(std::move(other.divisions_)), space_(std::move(other.space_)) {
     other.buckets_.resize(buckets_.size());
     other.size_ = 0;
   }
@@ -89,7 +89,6 @@ class SpatialHashing {
       std::swap(buckets_, copy.buckets_);
       std::swap(divisions_, copy.data_);
       std::swap(space_, copy.space_);
-      std::swap(size_, copy.size_);
     }
     return *this;
   }
@@ -101,7 +100,6 @@ class SpatialHashing {
       std::swap(buckets_, copy.buckets_);
       std::swap(divisions_, copy.data_);
       std::swap(space_, copy.space_);
-      std::swap(size_, copy.size_);
     }
     return *this;
   }
@@ -111,7 +109,6 @@ class SpatialHashing {
     auto iter = data_.emplace(pos, std::forward<Args>(args)..., position);
     size_t index = Hash(iter->GetPosition());
     buckets_[index].push_back(iter);
-    ++size_;
     return iter;
   }
 
@@ -207,7 +204,6 @@ class SpatialHashing {
     size_t index = Hash(iter->position_);
     buckets_[index].erase(std::find(buckets_[index].begin(), buckets_[index].end(), iter));
     data_.erase(iter);
-    --size_;
   }
 
   void clear() {
@@ -215,7 +211,6 @@ class SpatialHashing {
     for (auto& bucket : buckets_) {
       bucket.clear();
     }
-    size_ = 0;
   }
 
   template <class Functor, class Predicate>
@@ -226,6 +221,7 @@ class SpatialHashing {
       begins[i] = BucketIndex(box.GetLeft()[i], i);
       ends[i] = BucketIndex(box.GetRight()[i], i);
     }
+
     ApplyInBoxIterate<0>(0, begins, ends, function, predicate);
   }
 
@@ -240,9 +236,9 @@ class SpatialHashing {
     GetInBoxIterate<0>(0, begins, ends, predicate, input);
   }
 
-  [[nodiscard]] size_t size() const { return size_; }
+  [[nodiscard]] size_t size() const { return data_.size(); }
 
-  [[nodiscard]] bool empty() const { return size_ == 0; }
+  [[nodiscard]] bool empty() const { return data_.empty(); }
 
   iterator begin() { return data_.begin(); }
 
@@ -323,7 +319,6 @@ class SpatialHashing {
   std::vector<std::list<typename std::list<DataNode, NodeAlloc>::iterator>> buckets_;
   std::array<size_t, Dimension> divisions_;
   BoundaryBox<Space, Dimension> space_;
-  size_t size_{};
 };
 
 #endif //GEOMETRY_COLLECTIONS_SPATIALHASHING_H_

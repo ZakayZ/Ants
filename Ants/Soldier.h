@@ -11,7 +11,7 @@ class Soldier : public Ant {
  public:
   Soldier(const Vector2f& position, GeneralData& general_data)
       : Ant(position, general_data) {
-    ant_state_ = std::make_unique<EnemySearchState>(sensor_data_, pheromone_data_, movement_data_, general_data_);
+    ChangeState<EnemySearchState>();
   }
  private:
 };
