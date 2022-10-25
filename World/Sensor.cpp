@@ -97,7 +97,7 @@ void Sensor::DetectFood(WorldData& world_data) {
 }
 
 void Sensor::DetectPheromone(WorldData& world_data) {
-  auto pheromone_data = world_data.pheromone_map_.GetPheromoneCenter(general_data_.colony_index,
+  auto pheromone_data = world_data.GetPheromoneCenter(general_data_.colony_index,
                                                                      state_data_->GetPheromoneSensorCenter(),
                                                                      state_data_->GetPheromoneSensorSize(),
                                                                      state_data_->GetPheromoneType());

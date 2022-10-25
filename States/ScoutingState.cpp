@@ -38,8 +38,8 @@ void ScoutingState::Decide(float delta_time) {
 }
 
 void ScoutingState::Interact(WorldData& world_data, float delta_time) {
-  world_data.pheromone_map_.LayPheromone(general_data_.colony_index,
-                                         host_.GetPosition(),
-                                         host_.GetPheromoneData().pheromone_strength * delta_time,
-                                         PheromoneType::Home);
+  world_data.LayPheromone(general_data_.colony_index,
+                          host_.GetPosition(),
+                          host_.GetPheromoneData().pheromone_strength * delta_time,
+                          PheromoneType::Home);
 }

@@ -4,7 +4,7 @@ project(Ants)
 find_package(SFML 2.5.1 COMPONENTS graphics REQUIRED)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wextra -Werror")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(Sources
         Utils/RandomGenerator.cpp
@@ -23,7 +23,9 @@ set(Sources
         World/WorldData.cpp
         World/Sensor.cpp
         Ants/Ant.cpp
+        World/MapGenerator.cpp
         World/PheromoneMap.cpp
+        World/Map.cpp
         World/Colony.cpp
         World/World.cpp
         Renderer/Renderer.cpp

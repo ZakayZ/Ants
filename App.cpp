@@ -5,14 +5,13 @@
 #include "App.h"
 #include <vector>
 
-int Width = 800;
-int Height = 500;
+int Width = 300;
+int Height = 300;
 
 std::vector<FoodSource> food =
-    {FoodSource(Vector2f(400, 125), 500), FoodSource(Vector2f(400, 375), 500), FoodSource(Vector2f(50, 250), 500),
-     FoodSource(Vector2f(750, 250), 500), FoodSource(Vector2f(400, 250), 500)};
+    {FoodSource(Vector2f(150, 150), 10000)};
 
-std::vector<std::vector<Hive>> hives = {{Hive(Vector2f(300, 250), 100)}, {Hive(Vector2f(500, 250), 100)}} ;
+std::vector<std::vector<Hive>> hives = {{Hive(Vector2f(100, 100), 100)}, {Hive(Vector2f(200, 200), 100)}};
 
 App::App() : window_(sf::VideoMode(Width * kUnitLength, Height * kUnitLength), "Ants"),
              renderer_(window_, {Width, Height}),

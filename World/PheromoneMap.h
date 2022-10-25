@@ -22,29 +22,31 @@ class PheromoneMap {
     float cumulative_delta_time{};
   };
 
-  PheromoneMap(size_t colonies_number, Vector2i dimensions, float evaporation_rate = 0.05);
+  PheromoneMap(Vector2i dimensions, float evaporation_rate = 0.05);
 
   void Update(float delta_time);
 
-  [[nodiscard]] float GetPheromone(size_t colony_index, int x, int y, PheromoneType type) const;
+  void UpdateTile(int x, int y, float delta_time);
 
-  [[nodiscard]] float GetPheromone(size_t colony_index, const Vector2f& position, PheromoneType type) const;
+  [[nodiscard]] float GetPheromone(int x, int y, PheromoneType type) const;
+
+  [[nodiscard]] float GetPheromone(const Vector2f& position, PheromoneType type) const;
 
   [[nodiscard]] PheromoneInfo GetPheromoneCenter(
-      size_t colony_index, const Vector2f& position, float side_length, PheromoneType type) const;
+      const Vector2f& position, float side_length, PheromoneType type) const;
 
-  [[nodiscard]] size_t GetWidth() const { return pheromone_map_[0].size() - 2; }
+  [[nodiscard]] size_t GetWidth() const { return pheromone_map_.size() - 2; }
 
-  [[nodiscard]] size_t GetHeight() const { return pheromone_map_[0].back().size() - 2; }
+  [[nodiscard]] size_t GetHeight() const { return pheromone_map_.back().size() - 2; }
 
-  void LayPheromone(size_t colony_index, const Vector2f& position, float added_pheromone, PheromoneType type);
+  void LayPheromone(const Vector2f& position, float added_pheromone, PheromoneType type);
 
  private:
   void ForceUpdateTile(PheromoneTile& tile) const;
 
   void UpdateTile(PheromoneTile& tile) const;
 
-  mutable std::vector<std::vector<std::vector<PheromoneTile>>> pheromone_map_;
+  mutable std::vector<std::vector<PheromoneTile>> pheromone_map_;
   float evaporation_rate_;
 };
 

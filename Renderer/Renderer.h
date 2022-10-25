@@ -16,7 +16,7 @@
 #include "World/Hive.h"
 #include "Ants/Ant.h"
 
-static const float kUnitLength = 4.f;
+static const float kUnitLength = 6.f;
 
 class Renderer {
  public:
@@ -29,9 +29,7 @@ class Renderer {
   void Render(const World& world);
 
  private:
-  void Render(const TileMap& map);
-
-  void Render(const PheromoneMap& pheromone_map);
+  void Render(const Map& map);
 
   void Render(const FoodSource& food_source);
 
