@@ -13,7 +13,7 @@ std::vector<FoodSource> food =
 
 std::vector<std::vector<Hive>> hives = {{Hive(Vector2f(100, 100), 100)}, {Hive(Vector2f(200, 200), 100)}};
 
-App::App() : window_(sf::VideoMode(Width * kUnitLength, Height * kUnitLength), "Ants"),
+App::App() : window_(sf::VideoMode(Width * Renderer::UnitLength, Height * Renderer::UnitLength), "Ants"),
              renderer_(window_, {Width, Height}),
              world_({Width, Height}, food, hives) {}
 

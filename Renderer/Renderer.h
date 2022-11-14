@@ -16,10 +16,10 @@
 #include "World/Hive.h"
 #include "Ants/Ant.h"
 
-static const float kUnitLength = 6.f;
-
 class Renderer {
  public:
+  static const float UnitLength;
+
   Renderer(sf::RenderWindow& window, const Vector2i& size);
 
   void RegisterShift(const Vector2f& shift);

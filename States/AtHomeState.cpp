@@ -10,7 +10,7 @@ void AtHomeState::Decide(float delta_time) {
   host_.ResetPheromone();
 
   ///  came with food
-  if (host_.GetFoodData().carry_amount != 0) {
+  if (host_.GetSensorData().hive_storage.has_value() && host_.GetFoodData().carry_amount != 0) { /// TODO why there can be no hive
     host_.StoreFood();
   }
 
@@ -33,7 +33,7 @@ void AtHomeState::Decide(float delta_time) {
     }
 
     case kQueen: {
-      host_.ChangeState<FoodSearchState>(); /// TODO
+      host_.ChangeState<LayingState>();
       return;
     }
   }

@@ -19,6 +19,7 @@ set(Sources
         States/DefendingState.cpp
         States/ScoutingState.cpp
         States/AtHomeState.cpp
+        States/LayingState.cpp
 
         World/WorldData.cpp
         World/Sensor.cpp

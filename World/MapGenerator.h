@@ -11,7 +11,7 @@ class MapGenerator {
  public:
   using value_type = uint32_t;
 
-  MapGenerator(const std::vector<std::vector<value_type>>& states);
+  MapGenerator(const std::vector<std::vector<value_type>>& initial_states);
 
   MapGenerator(size_t width, size_t height);
 

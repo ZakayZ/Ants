@@ -28,9 +28,10 @@
 #include "States/DefendingState.h"
 #include "States/ScoutingState.h"
 #include "States/AtHomeState.h"
+#include "States/LayingState.h"
 
 class Sensor;
-class WorldData;
+struct WorldData;
 
 class Ant {
  public:
@@ -88,9 +89,9 @@ class Ant {
 
   void ReceiveDamage(int damage);
 
-  template <class State, bool Access = std::is_base_of_v<AntState, State>, typename = std::enable_if_t<Access>>
-  void ChangeState() {
-    ant_state_ = std::make_unique<State>(*this);
+  template <class State, typename... Args, bool Access = std::is_base_of_v<AntState, State>, typename = std::enable_if_t<Access>>
+  void ChangeState(Args&&... args) {
+    ant_state_ = std::make_unique<State>(*this, std::forward<Args>(args)...);
   }
 
   template <>

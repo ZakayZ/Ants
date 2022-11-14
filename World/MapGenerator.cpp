@@ -13,7 +13,7 @@ const MapGenerator::value_type MapGenerator::EmptySpaceValue = UINT32_MAX - 1;
 
 const MapGenerator::value_type MapGenerator::TemporaryValue = UINT32_MAX - 2;
 
-MapGenerator::MapGenerator(const std::vector<std::vector<value_type>>& states) : map_(states) {}
+MapGenerator::MapGenerator(const std::vector<std::vector<value_type>>& initial_states) : map_(initial_states) {}
 
 MapGenerator::MapGenerator(size_t width, size_t height)
     : rooms_count_(), map_(width, std::vector<value_type>(height, WallValue)) {}

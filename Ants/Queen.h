@@ -11,7 +11,7 @@ class Queen : public Ant {
  public:
   Queen(const Vector2f& position, GeneralData& general_data)
       : Ant(position, general_data) {
-    ChangeState<FoodSearchState>(); /// TODO
+    ChangeState<LayingState>();
   }
  private:
 };

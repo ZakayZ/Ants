@@ -19,7 +19,7 @@
 #include "World/PheromoneType.h"
 
 class Ant;
-class WorldData;
+struct WorldData;
 
 class AntState {
  public:

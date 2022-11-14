@@ -15,6 +15,7 @@ enum class StateType {
   AttackEnemy,
   Defending,
   Scouting,
+  Laying,
   Idle,
 };
 

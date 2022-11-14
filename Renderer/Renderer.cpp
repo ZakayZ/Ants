@@ -4,16 +4,18 @@
 
 #include "Renderer.h"
 
+const float Renderer::UnitLength = 4.f;
+
 Renderer::Renderer(sf::RenderWindow& window, const Vector2i& size)
     : window_(window), view_(window.getDefaultView()), tile_map_(sf::Quads, 4 * size[0] * size[1]) {
   for (int x = 0; x < size[0]; ++x) {
     for (int y = 0; y < size[1]; ++y) {
       size_t index = 4 * (x * size[1] + y);
 
-      tile_map_[index + 0].position = sf::Vector2f(float(x), float(y)) * kUnitLength;
-      tile_map_[index + 1].position = sf::Vector2f(float(x + 1), float(y)) * kUnitLength;
-      tile_map_[index + 2].position = sf::Vector2f(float(x + 1), float(y + 1)) * kUnitLength;
-      tile_map_[index + 3].position = sf::Vector2f(float(x), float(y + 1)) * kUnitLength;
+      tile_map_[index + 0].position = sf::Vector2f(float(x), float(y)) * UnitLength;
+      tile_map_[index + 1].position = sf::Vector2f(float(x + 1), float(y)) * UnitLength;
+      tile_map_[index + 2].position = sf::Vector2f(float(x + 1), float(y + 1)) * UnitLength;
+      tile_map_[index + 3].position = sf::Vector2f(float(x), float(y + 1)) * UnitLength;
 
       tile_map_[index + 0].color = tile_map_[index + 1].color =
       tile_map_[index + 2].color = tile_map_[index + 3].color = sf::Color(121, 96, 76); /// brown
@@ -88,9 +90,9 @@ void Renderer::Render(const FoodSource& food_source) {
 
 template <class T>
 void Renderer::RenderCircle(const T& value, sf::Color color) {
-  auto circle = sf::CircleShape(value.GetSize() * kUnitLength);
+  auto circle = sf::CircleShape(value.GetSize() * UnitLength);
   circle.setPosition(sf::Vector2f(value.GetPosition()[0] - value.GetSize(),
-                                  value.GetPosition()[1] - value.GetSize()) * kUnitLength);
+                                  value.GetPosition()[1] - value.GetSize()) * UnitLength);
   circle.setFillColor(color);
   window_.draw(circle);
 }

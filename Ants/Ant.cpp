@@ -109,6 +109,10 @@ void Ant::ChangeState(StateType new_state) {
       ChangeState<AtHomeState>();
       break;
     }
+    case StateType::Laying: {
+      ChangeState<LayingState>();
+      break;
+    }
   }
 }
 
