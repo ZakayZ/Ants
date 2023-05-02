@@ -59,8 +59,12 @@ void Ant::Stop() {
 }
 
 void Ant::InitiateFight() {
-  if (ant_state_->GetState() != StateType::Defending && ant_state_->GetState() != StateType::AttackEnemy) {
-    ChangeState<DefendingState>();
+  if (ant_state_->GetState() != StateType::AttackEnemy) {
+    if (ant_state_->GetState() != StateType::Defending) {
+      ChangeState<DefendingState>(ant_state_->GetState());
+    } else {
+      static_cast<DefendingState*>(ant_state_.get())->ProlongState(); /// NOLINT
+    }
   }
 }
 
@@ -98,7 +102,8 @@ void Ant::ChangeState(StateType new_state) {
       break;
     }
     case StateType::Defending: {
-      ChangeState<DefendingState>();
+      throw std::runtime_error("invalid state");
+      ChangeState<DefendingState>(StateType::None);
       break;
     }
     case StateType::Scouting: {

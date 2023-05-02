@@ -4,7 +4,7 @@
 
 #include "Renderer.h"
 
-const float Renderer::UnitLength = 4.f;
+const float Renderer::UnitLength = 6.f;
 
 Renderer::Renderer(sf::RenderWindow& window, const Vector2i& size)
     : window_(window), view_(window.getDefaultView()), tile_map_(sf::Quads, 4 * size[0] * size[1]) {

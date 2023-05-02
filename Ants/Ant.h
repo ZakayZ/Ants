@@ -94,11 +94,6 @@ class Ant {
     ant_state_ = std::make_unique<State>(*this, std::forward<Args>(args)...);
   }
 
-  template <>
-  void ChangeState<DefendingState>() {
-    ant_state_ = std::make_unique<DefendingState>(*this, ant_state_->GetState());
-  }
-
   void ChangeState(StateType new_state);
 
  protected:

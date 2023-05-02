@@ -7,9 +7,10 @@
 
 void RepellentPheromoneState::Interact(WorldData& world_data, float delta_time) {
   world_data.LayPheromone(general_data_.colony_index,
-                                         host_.GetPosition(),
-                                         -host_.GetSensorData().pheromone_strength * delta_time,
-                                         PheromoneType::Food);
+                          host_.GetPosition(),
+                          -(host_.GetSensorData().pheromone_strength + host_.GetPheromoneData().pheromone_strength)
+                              * delta_time,
+                          PheromoneType::Food);
 }
 
 void RepellentPheromoneState::Decide(float delta_time) {

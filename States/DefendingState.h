@@ -26,9 +26,14 @@ class DefendingState : public AntState{
 
   void Interact(WorldData& world_data, float delta_time) override;
 
+  void ProlongState();
+
  private:
+  static const float ActiveTime;
+
   StateType last_state_;
-  float attack_cooldown_ = 0.f;
+  float attack_cooldown_;
+  float active_time_;
 };
 
 #endif //ANTS_STATES_DEFENDINGSTATE_H_

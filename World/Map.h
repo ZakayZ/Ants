@@ -29,6 +29,10 @@ class Map {
 
   [[nodiscard]] bool HasObstacle(size_t x, size_t y) const;
 
+  [[nodiscard]] float RayCast(const Vector2f& origin, const Vector2f& direction, float length) const;
+
+  [[nodiscard]] float RayCast(const Vector2f& origin, const Vector2f& ray) const;
+
  private:
   std::vector<PheromoneMap> colonies_pheromone_;
   TileMap tile_map_;
