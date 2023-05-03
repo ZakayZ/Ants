@@ -13,15 +13,15 @@
 
 class World {
  public:
-  FoodMap& FoodMap() { return food_map_; }
+  FoodMap& GetFoodMap() { return food_map_; }
 
-  HiveMap& HiveMap() { return hive_map_; }
+  HiveMap& GetHiveMap() { return hive_map_; }
 
-  PheromoneMap& PheromoneMap() { return pheromone_map_; }
+  PheromoneMap& GetPheromoneMap() { return pheromone_map_; }
 
-  ObjectMap& ObjectMap() { return object_map_; }
+  ObjectMap& GetObjectMap() { return object_map_; }
 
-  CreatureMap& CreatureMap() { return creature_map_; }
+  CreatureMap& GetCreatureMap() { return creature_map_; }
 
  private:
   FoodMap food_map_;

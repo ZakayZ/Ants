@@ -6,10 +6,9 @@
 #define ANTS_NEW_WORLD_HIVEMAP_H_
 
 #include "VHiveMap.h"
+#include "NaiveHiveMap.h"
 
-class HiveMap;  // TODO
-
-using HiveMap = HiveMap;
+using HiveMap = NaiveHiveMap;
 
 static_assert(std::is_base_of_v<VHiveMap, HiveMap>, "invalid hive map class");
 
