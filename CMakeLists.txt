@@ -48,7 +48,7 @@ target_link_libraries(Ants sfml-graphics)
 set(NewSources
         New/food/FoodSource.cpp
         New/hive/Hive.cpp
-        App.cpp)
+        New/world/foodMap/NaiveFoodMap.cpp)
 
 add_executable(NewAnts ${NewSources} New/main.cpp)
 

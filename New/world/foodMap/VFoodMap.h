@@ -8,11 +8,11 @@
 #include "DataTypes.h"
 #include "BoundaryBox.h"
 
-class FoodIter;
+class FoodList;
 
 class VFoodMap {
  public:
-  virtual FoodIter GetFoodList(const BoundaryBox<Float, 2>& box) = 0;
+  virtual FoodList GetFoodList(const BoundaryBox<Float, 2>& box) = 0;
 
   virtual void Update(Time dt) = 0;
 

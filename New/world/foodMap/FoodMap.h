@@ -6,10 +6,9 @@
 #define ANTS_NEW_WORLD_FOODMAP_H_
 
 #include "VFoodMap.h"
+#include "NaiveFoodMap.h"
 
-class FoodMap;  // TODO
-
-using FoodMap = FoodMap;
+using FoodMap = NaiveFoodMap;
 
 static_assert(std::is_base_of_v<VFoodMap, FoodMap>, "invalid food map class");
 

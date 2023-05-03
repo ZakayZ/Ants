@@ -5,11 +5,11 @@
 #ifndef ANTS_NEW_WORLD_WORLD_H_
 #define ANTS_NEW_WORLD_WORLD_H_
 
-#include "FoodMap.h"
-#include "HiveMap.h"
-#include "PheromoneMap.h"
-#include "ObjectMap.h"
-#include "CreatureMap.h"
+#include "foodMap/FoodMap.h"
+#include "hiveMap/HiveMap.h"
+#include "pheromoneMap/PheromoneMap.h"
+#include "objectMap/ObjectMap.h"
+#include "creatureMap/CreatureMap.h"
 
 class World {
  public:
