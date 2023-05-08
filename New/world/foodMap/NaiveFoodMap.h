@@ -22,16 +22,20 @@ class NaiveFoodMap : public VFoodMap {
   void Update(Time dt) override;
 
  private:
-  std::vector<FoodSource> food_;
+  friend class FoodList;
+
+  using Container = std::vector<FoodSource>;
+
+  Container food_;
 };
 
 class FoodList {
  private:
   class PositionPredicate;
 
-  using BaseIterator = std::vector<FoodSource>::iterator;
+  using BaseIterator = NaiveFoodMap::Container::iterator;
 
-  using ConstBaseIterator = std::vector<FoodSource>::const_iterator;
+  using ConstBaseIterator = NaiveFoodMap::Container::const_iterator;
 
  public:
   using iterator = ConditionalIterator<BaseIterator, PositionPredicate>;

@@ -50,6 +50,9 @@ set(NewSources
         New/hive/Hive.cpp
         New/world/foodMap/NaiveFoodMap.cpp
         New/world/hiveMap/NaiveHiveMap.cpp
+        New/world/creatureMap/NaiveCreatureMap.cpp
+        New/world/pheromoneMap/NaivePheromoneMap.cpp
+        New/world/objectMap/NaiveObjectMap.cpp
         New/world/World.cpp)
 
 add_executable(NewAnts ${NewSources} New/main.cpp)

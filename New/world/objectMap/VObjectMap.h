@@ -5,6 +5,8 @@
 #ifndef ANTS_NEW_WORLD_VOBJECTMAP_H_
 #define ANTS_NEW_WORLD_VOBJECTMAP_H_
 
+#include <optional>
+
 #include "DataTypes.h"
 #include "BoundaryBox.h"
 
@@ -21,7 +23,11 @@ class VObjectMap {
 
   virtual WallInfo WallDistances(const Position& position) = 0;
 
+  virtual std::optional<Position> RayCast(const Position& start, const Position& end) = 0;
+
   virtual bool Visible(const Position& observer, const Position& object) = 0;
+
+  virtual std::vector<Position> FindPath(const Position& start, const Position& end) = 0;
 
   virtual void Update(Time dt) = 0;
 

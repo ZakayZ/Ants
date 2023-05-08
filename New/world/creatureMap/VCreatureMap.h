@@ -8,13 +8,15 @@
 #include "DataTypes.h"
 #include "BoundaryBox.h"
 
-class CreatureIter;
+class CreatureList;
+class World;
+
 
 class VCreatureMap {
  public:
-  virtual CreatureIter GetCreatures(const BoundaryBox<Float, 2>& box) = 0;
+  virtual CreatureList GetCreatures(const BoundaryBox<Float, 2>& box) = 0;
 
-  virtual void Update(Time dt) = 0;
+  virtual void Update(World& world, Time dt) = 0;
 
   virtual ~VCreatureMap() = default;
 };

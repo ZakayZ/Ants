@@ -7,7 +7,7 @@
 
 #include "Vector.h"
 
-using Float = float;
+using Float = float;  /// TODO make int for speed and fun
 using PrecisionFloat = double;
 using Time = float;
 

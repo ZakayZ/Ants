@@ -6,10 +6,9 @@
 #define ANTS_NEW_WORLD_OBJECTMAP_H_
 
 #include "VObjectMap.h"
+#include "NaiveObjectMap.h"
 
-class ObjectMap; // TODO
-
-using ObjectMap = ObjectMap;
+using ObjectMap = NaiveObjectMap;
 
 static_assert(std::is_base_of_v<VObjectMap, ObjectMap>, "invalid hive map class");
 

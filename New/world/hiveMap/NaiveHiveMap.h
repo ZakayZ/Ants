@@ -22,16 +22,20 @@ class NaiveHiveMap : public VHiveMap {
   void Update(Time dt) override;
 
  private:
-  std::vector<Hive> hives_;
+  friend class HiveList;
+
+  using Container = std::vector<Hive>;
+
+  Container hives_;
 };
 
 class HiveList {
  private:
   class PositionPredicate;
 
-  using BaseIterator = std::vector<Hive>::iterator;
+  using BaseIterator = NaiveHiveMap::Container::iterator;
 
-  using ConstBaseIterator = std::vector<Hive>::const_iterator;
+  using ConstBaseIterator = NaiveHiveMap::Container::const_iterator;
 
  public:
   using iterator = ConditionalIterator<BaseIterator, PositionPredicate>;

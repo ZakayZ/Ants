@@ -6,10 +6,9 @@
 #define ANTS_NEW_WORLD_PHEROMONEMAP_H_
 
 #include "VPheromoneMap.h"
+#include "NaivePheromoneMap.h"
 
-class PheromoneMap; // TODO
-
-using PheromoneMap = PheromoneMap;
+using PheromoneMap = NaivePheromoneMap;
 
 static_assert(std::is_base_of_v<VPheromoneMap, PheromoneMap>, "invalid pheromone map class");
 

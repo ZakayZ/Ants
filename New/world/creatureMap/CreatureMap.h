@@ -6,10 +6,9 @@
 #define ANTS_NEW_WORLD_CREATUREMAP_H_
 
 #include "VCreatureMap.h"
+#include "NaiveCreatureMap.h"
 
-class CreatureMap;  // TODO
-
-using CreatureMap = CreatureMap;
+using CreatureMap = NaiveCreatureMap;
 
 static_assert(std::is_base_of_v<VCreatureMap, CreatureMap>, "invalid creature map class");
 

@@ -17,12 +17,15 @@ class Creature {
 
   virtual void Update(World& world, Time dt) = 0;
 
-  const Position& GetPosition() const { return position_; }
+  [[nodiscard]] const Position& GetPosition() const { return position_; }
+
+  [[nodiscard]] bool Alive() const { return is_alive_; }
 
   virtual ~Creature() = default;
 
  protected:
   Position position_;
+  bool is_alive_;
 };
 
 #endif //ANTS_NEW_CREATURE_CREATURE_H_
