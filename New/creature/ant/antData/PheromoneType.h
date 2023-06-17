@@ -5,6 +5,8 @@
 #ifndef ANTS__PHEROMONETYPE_H_
 #define ANTS__PHEROMONETYPE_H_
 
+#include <cctype>
+
 enum PheromoneType {
   Food = 0,
   Home = 1,

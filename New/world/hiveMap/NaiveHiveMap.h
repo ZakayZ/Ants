@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "VHiveMap.h"
-#include "hive/Hive.h"
+#include "colony/Hive.h"
 #include "utils/ConditionalIterator.h"
 
 class NaiveHiveMap : public VHiveMap {

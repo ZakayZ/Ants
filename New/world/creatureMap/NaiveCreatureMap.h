@@ -23,7 +23,7 @@ class NaiveCreatureMap : public VCreatureMap {
  private:
   friend class CreatureList;
 
-  using Container = std::list<std::unique_ptr<Creature>>;
+  using Container = std::list<std::shared_ptr<Creature>>;
 
   Container creatures_;
 };
@@ -55,7 +55,7 @@ class CreatureList {
 
     PositionPredicate(BoundaryBox<Float, 2>&& box) noexcept: box_(std::move(box)) {}
 
-    inline bool operator()(const Creature& creature) { return box_.Contains(creature.GetPosition()); }
+    bool operator()(const Creature& creature);
 
    private:
     BoundaryBox<Float, 2> box_;

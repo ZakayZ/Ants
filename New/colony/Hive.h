@@ -9,15 +9,18 @@
 
 class Hive {  // TODO add colony info
  public:
-  Hive(Position position, uint32_t food_cnt);
+  Hive(Position position, uint32_t food_cnt, Float size);
 
   [[nodiscard]] const Position& GetPosition() const { return position_; }
+
+  [[nodiscard]] bool IsClose(const Position& agent_position) const;
 
   void StoreFood(uint32_t food_stored);
 
  private:
   Position position_;
   uint32_t food_cnt_;
+  Float size_;
 };
 
 #endif //ANTS_NEW_HIVE_HIVE_H_

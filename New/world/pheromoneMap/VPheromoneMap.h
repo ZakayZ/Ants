@@ -7,14 +7,9 @@
 
 #include "DataTypes.h"
 #include "BoundaryBox.h"
-#include "PheromoneType.h"
+#include "creature/ant/antData/PheromoneType.h"
 
 class PheromoneList;
-
-struct PheromoneData {
-  Float total_strength;
-  Position mean_position;
-};
 
 class VPheromoneMap {
  public:

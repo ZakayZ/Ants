@@ -34,7 +34,7 @@ set(Sources
 
 add_executable(Ants ${Sources} main.cpp)
 
-target_include_directories(Ants PUBLIC .)
+#target_include_directories(Ants PUBLIC .)
 
 target_include_directories(Ants PUBLIC Old)
 
@@ -43,19 +43,40 @@ target_include_directories(Ants PUBLIC ../Geometry/GeometryEntities)
 target_link_libraries(Ants sfml-graphics)
 
 
+#####################################################################################
 
+set(AntStates
+        New/creature/AI/state/State.cpp
+        New/creature/AI/state/antState/WorkerAI.cpp
+        New/creature/AI/state/antState/QueenAI.cpp
+        New/creature/AI/state/antState/WarriorAI.cpp
+        New/creature/AI/state/antState/AntState.cpp
+        New/creature/AI/state/antState/FoodSearchState.cpp
+        New/creature/AI/state/antState/HomeSearchState.cpp
+        New/creature/AI/state/antState/RepellentState.cpp
+        New/creature/AI/state/antState/EnemySearchState.cpp
+        )
+
+set(Ant
+        New/creature/ant/antData/PheromoneGland.cpp
+        New/creature/ant/antData/ResourceSack.cpp
+        New/creature/ant/Ant.cpp
+        ${AntStates}
+        )
 
 set(NewSources
         New/food/FoodSource.cpp
-        New/hive/Hive.cpp
+        New/colony/Hive.cpp
+        New/colony/Colony.cpp
         New/world/foodMap/NaiveFoodMap.cpp
         New/world/hiveMap/NaiveHiveMap.cpp
         New/world/creatureMap/NaiveCreatureMap.cpp
         New/world/pheromoneMap/NaivePheromoneMap.cpp
         New/world/objectMap/NaiveObjectMap.cpp
+
         New/world/World.cpp)
 
-add_executable(NewAnts ${NewSources} New/main.cpp)
+add_executable(NewAnts New/main.cpp ${NewSources} ${Ant})
 
 target_include_directories(NewAnts PUBLIC .)
 

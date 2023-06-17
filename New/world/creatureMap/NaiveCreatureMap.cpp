@@ -21,3 +21,6 @@ void NaiveCreatureMap::Update(World& world, Time dt) {
     }
   }
 }
+
+bool CreatureList::PositionPredicate::operator()(const Creature& creature) { return box_.Contains(creature.GetPosition()); }
+
