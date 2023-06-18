@@ -4,12 +4,11 @@
 
 #include "ResourceSack.h"
 
-void ResourceSack::Fill(int resource, ResourceType type) {
+void ResourceSack::Fill(uint32_t resource, ResourceType type) {
   Fill(ResourceData{resource, type});
 }
 
 void ResourceSack::Fill(ResourceData resource) {
-  /// TODO throw
   resource_ = resource;
 }
 

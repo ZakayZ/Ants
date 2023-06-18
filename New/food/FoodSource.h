@@ -13,6 +13,8 @@ class FoodSource {
 
   [[nodiscard]] const Position& GetPosition() const { return position_; }
 
+  [[nodiscard]] Float GetSize() const { return size_; }
+
   [[nodiscard]] bool IsClose(const Position& agent_position) const;
 
   uint32_t GetFood(uint32_t food_requested);

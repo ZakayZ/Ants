@@ -10,9 +10,14 @@
 NaiveObjectMap::NaiveObjectMap(Vector2i dimensions, Vector2f scale)
     : map_(dimensions[0], std::vector<bool>(dimensions[1])), scale_(scale) {}
 
-bool NaiveObjectMap::Empty(const Position& position) {
+bool NaiveObjectMap::Empty(const Position& position) const {
   return Empty(ToMap(position));
 }
+
+bool NaiveObjectMap::Empty(size_t x, size_t y) const {
+  return !map_[x][y];
+}
+
 
 WallInfo NaiveObjectMap::WallDistances(const Position& position) {
   auto pos_int = ToMap(position);
@@ -74,7 +79,7 @@ std::optional<Position> NaiveObjectMap::RayCast(const Position& start, const Pos
 }
 
 bool NaiveObjectMap::Visible(const Position& observer, const Position& object) {
-  return RayCast(observer, object).has_value();
+  return !RayCast(observer, object).has_value();
 }
 
 /// TODO improve to bidirectional

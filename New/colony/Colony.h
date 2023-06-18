@@ -14,19 +14,21 @@
 
 class Ant;
 
+class World;
+
 class Larva;
 
 class Colony {
  public:
   using AntPtr = std::shared_ptr<Ant>;
 
-  Colony(std::vector<Hive>& colony_hives);
+  Colony(std::vector<Hive*>&& colony_hives);
 
   [[nodiscard]] size_t GetIndex() const { return colony_id_; }
 
-  [[nodiscard]] const std::vector<Hive>& GetHives() const { return hives_; }
+  [[nodiscard]] const std::vector<Hive*>& GetHives() const { return hives_; }
 
-  void Update(Time dt);
+  void Update(World& world, Time dt);
 
   std::unique_ptr<Ant> GetInitialQueen();
 
@@ -45,10 +47,10 @@ class Colony {
 
   const size_t colony_id_;
 
-  std::vector<Hive>& hives_;
+  std::vector<Hive*> hives_;
   std::array<GeneralData, 4> ant_general_data_;
   std::array<Float, 4> target_ant_fractions_;
-  std::list<Larva> larva_;
+  std::list<Larva*> larva_;
 };
 
 #endif //ANTS_NEW_COLONY_COLONY_H_

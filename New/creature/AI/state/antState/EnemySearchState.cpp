@@ -7,39 +7,47 @@
 #include "creature/ant/Ant.h"
 #include "world/World.h"
 
-const Time EnemySearchState::ScanDelay = 1;
+const Time EnemySearchState::ScanDelay = 0.5;
 
 void EnemySearchState::Decide(World& world, Time dt) {
-  attack_delay_.Update(dt);
+  scan_cooldown_.Update(dt);
 
-  host_.LayPheromone(dt);
+  host_.LayPheromone(world, dt);
   FollowPheromone(world, PheromoneType::Enemy, dt);
 
-  if (attack_delay_.Ready()) {
-    FindEnemy(world);
-    if (enemy_ != nullptr) {
-      FollowPoint(enemy_->GetPosition());
+  if (scan_cooldown_.Ready()) {
+    scan_cooldown_.Use();
 
-      if ((enemy_->GetPosition() - host_.GetPosition()).SquaredLength() <= std::pow(2 * general_data_.ant_size, 2)) {
-        host_.GetStateManager().CreatureInteraction(*enemy_);
-        return;
-      }
+    if (enemy_.expired()) {
+      FindEnemy(world);
     }
 
-    attack_delay_.Use();
+    if (enemy_.expired()) {
+      return;
+    }
+
+    auto enemy_ptr = enemy_.lock();
+    if ((enemy_ptr->GetPosition() - host_.GetPosition()).SquaredLength()
+        <= std::pow(2 * host_.GetGeneralData().ant_size, 2)) {
+      host_.GetStateManager().CreatureInteraction(enemy_ptr);
+      return;
+    }
+
+    FollowPoint(enemy_ptr->GetPosition());
   }
 }
 
 void EnemySearchState::FindEnemy(World& world) {
-  enemy_ = nullptr;
+  enemy_.reset();
   for (auto& creature_ptr : world.GetCreatureMap().GetCreatures(host_.VisibleRange())) {
     if (creature_ptr->GetType() == CreatureType::Ant) {
-      if (static_cast<Ant&>(*creature_ptr).GetGeneralData().colony_index != general_data_.colony_index) {  /// TODO maybe shared ptr ant
-        enemy_ = creature_ptr.get();
+      assert(dynamic_cast<Ant*>(&*creature_ptr) != nullptr);
+      if (static_cast<Ant&>(*creature_ptr).GetGeneralData().colony_index != host_.GetGeneralData().colony_index) {
+        enemy_ = creature_ptr;
         break;
       }
     } else {
-      /// TODO
+      /// TODO creatures
     }
   }
 }

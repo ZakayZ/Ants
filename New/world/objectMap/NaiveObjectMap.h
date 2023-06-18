@@ -9,9 +9,11 @@
 
 class NaiveObjectMap : public VObjectMap {
  public:
-  NaiveObjectMap(Vector2i dimensions, Vector2f scale);
+  NaiveObjectMap(Vector2i dimensions, Vector2f scale = {1., 1.});
 
-  bool Empty(const Position& position) override;
+  [[nodiscard]] bool Empty(const Position& position) const override;
+
+  [[nodiscard]] bool Empty(size_t x, size_t y) const;
 
   WallInfo WallDistances(const Position& position) override;
 
@@ -22,6 +24,10 @@ class NaiveObjectMap : public VObjectMap {
   std::vector<Position> FindPath(const Position& start, const Position& end) override;
 
   void Update(Time dt) override;
+
+  [[nodiscard]] size_t GetWidth() const { return map_.size(); }
+
+  [[nodiscard]] size_t GetHeight() const { return map_.back().size(); }
 
  private:
   Vector2i ToMap(const Position& position) const;

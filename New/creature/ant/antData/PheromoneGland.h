@@ -12,15 +12,19 @@ class PheromoneGland {
  public:
   PheromoneGland();
 
-  PheromoneGland(Float initial_strength, Time active_time, PheromoneType type);
+  PheromoneGland(Float initial_strength, Time effective_time, PheromoneType type);
 
   [[nodiscard]] PheromoneType GetPheromoneType() const { return type_; }
 
   [[nodiscard]] Float Secrete(Time dt);
 
+  void SetPheromoneType(PheromoneType type);
+
+  void Reset(Float strength = 1.);
+
  private:
   Float pheromone_strength_;
-  Time active_time_;
+  Time effective_time_;
   PheromoneType type_;
 };
 

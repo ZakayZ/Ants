@@ -17,11 +17,12 @@ class AntStateManager : public StateManager {
 
   void Decide(World& world, Time dt) override { state_->Decide(world, dt); }
 
-  AntState& GetAntState() { return static_cast<AntState&>(*state_); }
+  AntState& GetAntState() {
+    assert(dynamic_cast<AntState*>(&*state_) != nullptr);
+    return static_cast<AntState&>(*state_);
+  }
 
-  virtual void AntInteraction(Ant& ant) = 0;
-
-  virtual void CreatureInteraction(Creature& creature) = 0;
+  virtual void CreatureInteraction(std::shared_ptr<Creature> creature) = 0;
 
   virtual void HiveDecision(Hive& hive) = 0;
 

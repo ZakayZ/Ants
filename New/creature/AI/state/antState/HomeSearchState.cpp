@@ -8,7 +8,7 @@
 #include "world/World.h"
 
 void HomeSearchState::Decide(World& world, Time dt) {
-  host_.LayPheromone(dt);
+  host_.LayPheromone(world, dt);
   FollowPheromone(world, PheromoneType::Home, dt);
 
   if (hive_ != nullptr) {
@@ -24,7 +24,7 @@ void HomeSearchState::Decide(World& world, Time dt) {
 void HomeSearchState::FindHive(World& world) {
   auto& map = world.GetObjectMap();
   for (auto& hive : world.GetHiveMap().GetHiveList(host_.VisibleRange())) {
-    if ((host_.GetPosition() - hive.GetPosition()).SquaredLength() <= std::pow(general_data_.visible_range, 2)
+    if ((host_.GetPosition() - hive.GetPosition()).SquaredLength() <= std::pow(host_.GetGeneralData().visible_range, 2)
         && map.Visible(host_.GetPosition(), hive.GetPosition())) {
       hive_ = &hive;
       break;

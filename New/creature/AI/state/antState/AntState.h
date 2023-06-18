@@ -20,6 +20,8 @@ class AntState : public State {
 
   [[nodiscard]] virtual StateType GetType() const { return StateType::None; }
 
+  Ant& GetHost() { return host_; }
+
  protected:
   void Rotate();
 
@@ -28,7 +30,6 @@ class AntState : public State {
   void FollowPheromone(World& world, PheromoneType type, Time dt);
 
   Ant& host_;
-  const GeneralData& general_data_;
 };
 
 #endif //ANTS_NEW_CREATURE_AI_STATE_ANTSTATE_H_

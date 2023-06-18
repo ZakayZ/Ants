@@ -11,9 +11,7 @@ class QueenAI : public AntStateManager {
  public:
   QueenAI(std::unique_ptr<AntState>&& state) : AntStateManager(std::move(state)) {}
 
-  void AntInteraction(Ant& creature) override;
-
-  void CreatureInteraction(Creature& creature) override;
+  void CreatureInteraction(std::shared_ptr<Creature> creature) override;
 
   void HiveDecision(Hive& hive) override;
 

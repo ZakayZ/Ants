@@ -18,7 +18,7 @@ Colony::Colony(std::vector<Hive>& colony_hives, size_t colony_index)
 
   ant_fractions_[AntType::kQueen] = 0;
   ant_fractions_[AntType::kWorker] = 0.8f;
-  ant_fractions_[AntType::kSoldier] = 0.0f;
+  ant_fractions_[AntType::kSoldier] = 0.1f;
   ant_fractions_[AntType::kScout] = 0.1f;
 }
 

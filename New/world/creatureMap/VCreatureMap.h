@@ -8,6 +8,7 @@
 #include "DataTypes.h"
 #include "BoundaryBox.h"
 
+class Creature;
 class CreatureList;
 class World;
 
@@ -17,6 +18,8 @@ class VCreatureMap {
   virtual CreatureList GetCreatures(const BoundaryBox<Float, 2>& box) = 0;
 
   virtual void Update(World& world, Time dt) = 0;
+
+  virtual void AddCreature(Creature* creature_ptr) = 0;
 
   virtual ~VCreatureMap() = default;
 };

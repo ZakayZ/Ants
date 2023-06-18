@@ -13,18 +13,31 @@
 class Creature;
 
 class NaiveCreatureMap : public VCreatureMap {
- public:
-  NaiveCreatureMap() = default;
-
-  CreatureList GetCreatures(const BoundaryBox<Float, 2>& box) override;
-
-  void Update(World& world, Time dt) override;
-
  private:
   friend class CreatureList;
 
   using Container = std::list<std::shared_ptr<Creature>>;
 
+ public:
+  NaiveCreatureMap() = default;
+
+  Container::iterator begin() { return creatures_.begin(); }
+
+  Container::iterator end() { return creatures_.end(); }
+
+  Container::const_iterator begin() const { return creatures_.begin(); }
+
+  Container::const_iterator end() const { return creatures_.end(); }
+
+  CreatureList GetCreatures(const BoundaryBox<Float, 2>& box) override;
+
+  void Update(World& world, Time dt) override;
+
+  void AddCreature(Creature* creature_ptr) override;
+
+  void AddCreature(const std::shared_ptr<Creature>& creature_ptr);
+
+ private:
   Container creatures_;
 };
 
@@ -55,7 +68,7 @@ class CreatureList {
 
     PositionPredicate(BoundaryBox<Float, 2>&& box) noexcept: box_(std::move(box)) {}
 
-    bool operator()(const Creature& creature);
+    bool operator()(const std::shared_ptr<Creature>& creature_ptr);
 
    private:
     BoundaryBox<Float, 2> box_;

@@ -12,20 +12,29 @@
 #include "utils/ConditionalIterator.h"
 
 class NaiveHiveMap : public VHiveMap {
+ private:
+  friend class HiveList;
+
+  using Container = std::vector<Hive>;
+
  public:
   NaiveHiveMap(const std::vector<Hive>& hives);
 
   NaiveHiveMap(std::vector<Hive>&& hives) noexcept;
+
+  Container::iterator begin() { return hives_.begin(); }
+
+  Container::iterator end() { return hives_.end(); }
+
+  Container::const_iterator begin() const { return hives_.begin(); }
+
+  Container::const_iterator end() const { return hives_.end(); }
 
   HiveList GetHiveList(const BoundaryBox<Float, 2>& box) override;
 
   void Update(Time dt) override;
 
  private:
-  friend class HiveList;
-
-  using Container = std::vector<Hive>;
-
   Container hives_;
 };
 

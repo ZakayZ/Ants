@@ -12,20 +12,29 @@
 #include "utils/ConditionalIterator.h"
 
 class NaiveFoodMap : public VFoodMap {
+ private:
+  friend class FoodList;
+
+  using Container = std::vector<FoodSource>;
+
  public:
   NaiveFoodMap(const std::vector<FoodSource>& food);
 
   NaiveFoodMap(std::vector<FoodSource>&& food);
+
+  Container::iterator begin() { return food_.begin(); }
+
+  Container::iterator end() { return food_.end(); }
+
+  Container::const_iterator begin() const { return food_.begin(); }
+
+  Container::const_iterator end() const { return food_.end(); }
 
   FoodList GetFoodList(const BoundaryBox<Float, 2>& box) override;
 
   void Update(Time dt) override;
 
  private:
-  friend class FoodList;
-
-  using Container = std::vector<FoodSource>;
-
   Container food_;
 };
 

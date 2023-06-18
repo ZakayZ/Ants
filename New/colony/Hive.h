@@ -13,11 +13,15 @@ class Hive {  // TODO add colony info
 
   [[nodiscard]] const Position& GetPosition() const { return position_; }
 
+  [[nodiscard]] Float GetSize() const { return size_; }
+
   [[nodiscard]] bool IsClose(const Position& agent_position) const;
 
   void StoreFood(uint32_t food_stored);
 
  private:
+  friend class Colony;
+
   Position position_;
   uint32_t food_cnt_;
   Float size_;

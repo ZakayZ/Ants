@@ -55,9 +55,11 @@ set(AntStates
         New/creature/AI/state/antState/HomeSearchState.cpp
         New/creature/AI/state/antState/RepellentState.cpp
         New/creature/AI/state/antState/EnemySearchState.cpp
+        New/creature/AI/state/antState/AttackState.cpp
         )
 
 set(Ant
+        New/creature/Creature.cpp
         New/creature/ant/antData/PheromoneGland.cpp
         New/creature/ant/antData/ResourceSack.cpp
         New/creature/ant/Ant.cpp
@@ -73,7 +75,8 @@ set(NewSources
         New/world/creatureMap/NaiveCreatureMap.cpp
         New/world/pheromoneMap/NaivePheromoneMap.cpp
         New/world/objectMap/NaiveObjectMap.cpp
-
+        New/App.cpp
+        New/render/Renderer.cpp
         New/world/World.cpp)
 
 add_executable(NewAnts New/main.cpp ${NewSources} ${Ant})
@@ -83,3 +86,5 @@ target_include_directories(NewAnts PUBLIC .)
 target_include_directories(NewAnts PUBLIC New)
 
 target_include_directories(NewAnts PUBLIC ../Geometry/GeometryEntities)
+
+target_link_libraries(NewAnts sfml-graphics)

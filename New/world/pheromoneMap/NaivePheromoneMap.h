@@ -11,9 +11,11 @@
 
 class NaivePheromoneMap : public VPheromoneMap {
  public:
-  NaivePheromoneMap(Vector2i dimensions, Vector2f scale, Float diffusion_rate, Float evaporation_rate);
+  NaivePheromoneMap(Vector2i dimensions, Vector2f scale = {1., 1.}, Float diffusion_rate = 0., Float evaporation_rate = 0.05);
 
   PheromoneList GetPheromone(const BoundaryBox<Float, 2>& box, PheromoneType type) override;
+
+  Float GetPheromone(size_t colony_id, size_t x, size_t y, PheromoneType type) const;
 
   void AddPheromone(const Vector<Float, 2>& position, Float strength, PheromoneType type) override;
 

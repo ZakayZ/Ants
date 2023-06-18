@@ -6,10 +6,10 @@
 #define ANTS_NEW_CREATURE_ANT_ANTDATA_ANTTYPE_H_
 
 enum AntType {
-  Worker = 0,
-  Soldier = 1,
-  Scout = 2,
-  Queen = 3,
+  kWorker = 0,
+  kSoldier = 1,
+  kScout = 2,
+  kQueen = 3,
 };
 
 #endif //ANTS_NEW_CREATURE_ANT_ANTDATA_ANTTYPE_H_

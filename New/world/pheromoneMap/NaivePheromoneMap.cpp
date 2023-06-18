@@ -14,6 +14,11 @@ PheromoneList NaivePheromoneMap::GetPheromone(const BoundaryBox<Float, 2>& box, 
   return {tiles_, ToMap(box.GetLeft()), ToMap(box.GetRight())};
 }
 
+Float NaivePheromoneMap::GetPheromone(size_t colony_id, size_t x, size_t y, PheromoneType type) const {
+  return tiles_[x][y].pheromone[type];
+}
+
+
 void NaivePheromoneMap::AddPheromone(const Vector<Float, 2>& position, Float strength, PheromoneType type) {
   auto tile_position = ToMap(position);
   tiles_[tile_position[0]][tile_position[1]].pheromone[type] += strength;
@@ -53,5 +58,3 @@ void NaivePheromoneMap::Update(Time dt) {
 Vector2i NaivePheromoneMap::ToMap(const Position& position) const {
   return {int(position[0] / scale_[0]), int(position[1] / scale_[1])};
 }
-
-

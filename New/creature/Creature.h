@@ -16,8 +16,7 @@ class AI;
 
 class Creature {
  public:
-  Creature(MoveData move_data, CreatureData creature_data, std::unique_ptr<AI>&& brain)
-      : move_data_(move_data), creature_data_(creature_data), brain_(std::move(brain)) {}
+  Creature(MoveData move_data, CreatureData creature_data, std::unique_ptr<AI>&& brain);
 //  virtual void Move(World& world, Time dt) = 0;
 //
 //  virtual void Decide(World& world, Time dt) = 0;
@@ -36,7 +35,7 @@ class Creature {
 
   [[nodiscard]] CreatureType GetType() const { return type_; }
 
-  virtual ~Creature() = default;
+  virtual ~Creature();
 
  protected:
   MoveData move_data_;

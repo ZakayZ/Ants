@@ -5,29 +5,31 @@
 #ifndef ANTS_NEW_CREATURE_ANT_ANTDATA_RESOURCESACK_H_
 #define ANTS_NEW_CREATURE_ANT_ANTDATA_RESOURCESACK_H_
 
+#include <cstdint>
 #include "ResourceType.h"
 
 struct ResourceData {
-  int amount;
+  uint32_t amount;
   ResourceType type;
 };
 
 class ResourceSack {
  public:
-  ResourceSack(int max_capacity) : carry_capacity_(max_capacity), resource_{0, ResourceType::None} {}
+  ResourceSack(uint32_t max_capacity) : Capacity(max_capacity), resource_{0, ResourceType::None} {}
 
-  void Fill(int resource, ResourceType type);
+  void Fill(uint32_t resource, ResourceType type);
 
   void Fill(ResourceData resource);
 
-  const ResourceData& View() const;
+  [[nodiscard]] const ResourceData& View() const;
 
   ResourceData EmptySack();
 
   bool IsEmpty() const;
 
+  const uint32_t Capacity;
+
  private:
-  const int carry_capacity_;
   ResourceData resource_;
 };
 

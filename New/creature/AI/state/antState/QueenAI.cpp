@@ -4,11 +4,8 @@
 
 #include "QueenAI.h"
 /// TODO
-void QueenAI::AntInteraction(Ant& creature) {
 
-}
-
-void QueenAI::CreatureInteraction(Creature& creature) {
+void QueenAI::CreatureInteraction(std::shared_ptr<Creature> creature) {
 
 }
 

@@ -5,6 +5,7 @@
 #ifndef ANTS_NEW_CREATURE_AI_STATE_ENEMYSEARCHSTATE_H_
 #define ANTS_NEW_CREATURE_AI_STATE_ENEMYSEARCHSTATE_H_
 
+#include <memory>
 #include <optional>
 
 #include "AntState.h"
@@ -23,8 +24,8 @@ class EnemySearchState : public AntState {
 
   void FindEnemy(World& world);
 
-  Creature* enemy_ = nullptr;
-  Cooldown attack_delay_ = Cooldown(ScanDelay);
+  std::weak_ptr<Creature> enemy_;
+  Cooldown scan_cooldown_ = Cooldown(ScanDelay);
 };
 
 #endif //ANTS_NEW_CREATURE_AI_STATE_ENEMYSEARCHSTATE_H_

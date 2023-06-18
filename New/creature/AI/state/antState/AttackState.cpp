@@ -3,3 +3,7 @@
 //
 
 #include "AttackState.h"
+
+void AttackState::Decide(World& world, Time dt) {
+/// TODO
+}

@@ -22,8 +22,8 @@ BoundaryBox2<Float> Ant::SensitiveRange() const {
   return {move_data_.position - delta, move_data_.position + delta};
 }
 
-Float Ant::LayPheromone(Time dt) {
-  return pheromone_gland_.Secrete(dt);
+void Ant::LayPheromone(World& world, Time dt) {
+  return world.GetPheromoneMap().AddPheromone(move_data_.position, dt, pheromone_gland_.GetPheromoneType());
 }
 
 void Ant::Move(Time dt) {

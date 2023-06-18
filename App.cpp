@@ -11,7 +11,7 @@ int Height = 300;
 std::vector<FoodSource> food =
     {FoodSource(Vector2f(150, 150), 10)};
 
-std::vector<std::vector<Hive>> hives = {{Hive(Vector2f(100, 100), 10000)}};/*, {Hive(Vector2f(200, 200), 100)}};*/
+std::vector<std::vector<Hive>> hives = {{Hive(Vector2f(100, 100), 100)}};/*, {Hive(Vector2f(200, 200), 100)}};*/
 
 App::App() : window_(sf::VideoMode(Width * Renderer::UnitLength, Height * Renderer::UnitLength), "Ants"),
              renderer_(window_, {Width, Height}),

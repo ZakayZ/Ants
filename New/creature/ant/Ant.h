@@ -16,23 +16,36 @@
 
 #include "BoundaryBox.h"
 
+class World;
+
 class Ant : public Creature {
  public:
-  Ant(MoveData move_data, CreatureData creature_data, std::unique_ptr<AI>&& brain, const GeneralData& general_data)
-      : Creature(move_data, creature_data, std::move(brain)), general_data_(general_data),
-        random_walk_(general_data.wander_cooldown) {}
+  Ant(MoveData move_data, std::unique_ptr<AI>&& brain, const GeneralData& general_data)
+      : Creature(move_data, CreatureData{.hp=general_data.max_health, .alive=true}, std::move(brain)),
+        general_data_(general_data),
+        random_walk_(general_data.wander_cooldown) {
+    type_ = CreatureType::Ant;
+    pheromone_gland_.SetPheromoneType(PheromoneType::Home);
+  }
 
   void Update(World& world, Time dt) override;
 
-  const GeneralData& GetGeneralData() { return general_data_; }
+  void LayPheromone(World& world, Time dt);
+
+  [[nodiscard]] const GeneralData& GetGeneralData() const { return general_data_; }
+
+  [[nodiscard]] Float GetSize() const { return general_data_.ant_size; }
 
   [[nodiscard]] BoundaryBox2<Float> VisibleRange() const;
 
   [[nodiscard]] BoundaryBox2<Float> SensitiveRange() const;
 
-  Float LayPheromone(Time dt);
+  PheromoneGland& GetPheromoneGland() { return pheromone_gland_; }
 
-  AntStateManager& GetStateManager() { return static_cast<AntStateManager&>(*brain_); }
+  AntStateManager& GetStateManager() {
+    assert(dynamic_cast<AntStateManager*>(&*brain_) != nullptr);
+    return static_cast<AntStateManager&>(*brain_);
+  }
 
  protected:
   void Move(Time dt);

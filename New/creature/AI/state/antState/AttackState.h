@@ -13,7 +13,7 @@ class AttackState : public AntState {
 
   void Decide(World& world, Time dt) override;
 
-  [[nodiscard]] StateType GetType() const { return StateType::AttackEnemy; }
+  [[nodiscard]] StateType GetType() const override { return StateType::AttackEnemy; }
 
  private:
 };

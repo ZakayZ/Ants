@@ -22,5 +22,13 @@ void NaiveCreatureMap::Update(World& world, Time dt) {
   }
 }
 
-bool CreatureList::PositionPredicate::operator()(const Creature& creature) { return box_.Contains(creature.GetPosition()); }
+void NaiveCreatureMap::AddCreature(Creature* creature_ptr) {
+  creatures_.emplace_back(creature_ptr);
+}
+
+void NaiveCreatureMap::AddCreature(const std::shared_ptr<Creature>& creature_ptr) {
+  creatures_.emplace_back(creature_ptr);
+}
+
+bool CreatureList::PositionPredicate::operator()(const std::shared_ptr<Creature>& creature_ptr) { return box_.Contains(creature_ptr->GetPosition()); }
 

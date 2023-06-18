@@ -19,7 +19,7 @@ struct WallInfo {
 
 class VObjectMap {
  public:
-  virtual bool Empty(const Position& position) = 0;
+  virtual bool Empty(const Position& position) const = 0;
 
   virtual WallInfo WallDistances(const Position& position) = 0;
 

@@ -10,7 +10,7 @@
 
 class RepellentState : public HomeSearchState {
  public:
-  RepellentState(Ant& host) : HomeSearchState(host), state_duration_(general_data_.repellent_duration) {};
+  explicit RepellentState(Ant& host);
 
   void Decide(World& world, Time dt) final;
 

@@ -78,7 +78,7 @@ class ConditionalIterator {
 
  private:
   Iterator iterator_;
-  Iterator border_;  // TODO better way???
+  Iterator border_;
   Predicate predicate_;
 };
 

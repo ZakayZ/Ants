@@ -1,5 +1,5 @@
-#include "world/World.h"
+#include "App.h"
 
 int main() {
-  World world;
+  App().Run();
 }

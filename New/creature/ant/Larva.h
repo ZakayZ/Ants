@@ -9,7 +9,12 @@
 
 class Larva : public Ant {
  public:
-  /// TODO
+  Larva() : Ant(MoveData{},
+                nullptr,
+                GeneralData()) {}
+
+  void Update(World& world, Time dt) override {} /// TODO
+
  private:
 };
 

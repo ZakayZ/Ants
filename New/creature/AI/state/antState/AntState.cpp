@@ -6,7 +6,7 @@
 #include "creature/ant/Ant.h"
 #include "world/World.h"
 
-AntState::AntState(Ant& host) : State(host), host_(host), general_data_(host_.GetGeneralData()) {}
+AntState::AntState(Ant& host) : State(host), host_(host) {}
 
 void AntState::Rotate() {
   host_.GetMoveData().target_direction = -host_.GetMoveData().target_direction;

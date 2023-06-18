@@ -8,6 +8,10 @@
 #include "DataTypes.h"
 
 struct GeneralData {
+  GeneralData() = default;
+
+  GeneralData(size_t colony_id) : colony_index(colony_id) {}
+
   Float ant_size = 1.f;
 
   /// movement related
