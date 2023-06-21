@@ -7,11 +7,31 @@
 
 #include "EnemySearchState.h"
 
-void WarriorAI::CreatureInteraction(std::shared_ptr<Creature> creature) {
-  /// TODO
+void WarriorAI::React(EventData& data) {
+  switch (data.type) {
+    case EventType::Hive: {
+      assert(dynamic_cast<HiveEvent*>(&data) != nullptr);
+      HiveDecision(static_cast<HiveEvent&>(data));
+      break;
+    }
+    case EventType::Creature: {
+      assert(dynamic_cast<CreatureEvent*>(&data) != nullptr);
+      /// TODO
+      break;
+    }
+    case EventType::Attacked: {
+      assert(dynamic_cast<DefenceEvent*>(&data) != nullptr);
+      DefenceDecision(static_cast<DefenceEvent&>(data));
+      break;
+    }
+    default: {
+      std::cerr << "Warrior: no reaction set\n";
+      break;
+    }
+  }
 }
 
-void WarriorAI::HiveDecision(Hive& hive) {
+void WarriorAI::HiveDecision(HiveEvent& data) {
   assert(dynamic_cast<Warrior*>(&GetAntState().GetHost()) != nullptr);
   auto& soldier = static_cast<Warrior&>(GetAntState().GetHost());
 
@@ -23,7 +43,7 @@ void WarriorAI::HiveDecision(Hive& hive) {
   SetState(std::make_unique<EnemySearchState>(soldier));
 }
 
-void WarriorAI::DefenceDecision(Creature& creature) {
-  /// TODO attack enemy
+void WarriorAI::DefenceDecision(DefenceEvent& data) {
+
 }
 

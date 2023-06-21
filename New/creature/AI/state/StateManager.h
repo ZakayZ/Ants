@@ -18,6 +18,8 @@ class StateManager : public AI {
 
   void Decide(World& world, Time dt) override { state_->Decide(world, dt); }
 
+  void React(EventData& data) = 0;
+
   std::unique_ptr<State>& GetState() { return state_; }
 
   std::unique_ptr<State>&& RetrieveState() { return std::move(state_); }

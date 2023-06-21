@@ -6,12 +6,15 @@
 #define ANTS_NEW_CREATURE_AI_AI_H_
 
 #include "DataTypes.h"
+#include "event/EventData.h"
 
 class World;
 
 class AI {
  public:
   virtual void Decide(World& world, Time dt) = 0;
+
+  virtual void React(EventData& data) = 0;
 
   virtual ~AI() = default;
 };

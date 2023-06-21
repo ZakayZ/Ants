@@ -5,7 +5,7 @@
 #ifndef ANTS_NEW_CREATURE_AI_STATE_ANTSTATE_H_
 #define ANTS_NEW_CREATURE_AI_STATE_ANTSTATE_H_
 
-#include "../State.h"
+#include "creature/AI/state/State.h"
 #include "StateType.h"
 #include "creature/ant/antData/GeneralData.h"
 #include "creature/ant/antData/PheromoneType.h"

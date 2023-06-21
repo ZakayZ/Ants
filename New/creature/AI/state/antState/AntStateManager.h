@@ -15,18 +15,15 @@ class AntStateManager : public StateManager {
 
   void SetState(std::unique_ptr<AntState>&& state) { state_ = std::move(state); }
 
-  void Decide(World& world, Time dt) override { state_->Decide(world, dt); }
-
   AntState& GetAntState() {
     assert(dynamic_cast<AntState*>(&*state_) != nullptr);
     return static_cast<AntState&>(*state_);
   }
 
-  virtual void CreatureInteraction(std::shared_ptr<Creature> creature) = 0;
-
-  virtual void HiveDecision(Hive& hive) = 0;
-
-  virtual void DefenceDecision(Creature& creature) = 0;
+  AntState* RetrieveAntState() {
+    assert(dynamic_cast<AntState*>(&*state_) != nullptr);
+    return static_cast<AntState*>(state_.release());
+  }
 };
 
 #endif //ANTS_NEW_CREATURE_AI_STATE_ANTSTATE_ANTSTATEMANAGER_H_
